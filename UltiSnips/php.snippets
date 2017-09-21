@@ -1,0 +1,39 @@
+snippet pub
+public function ${1:functionName}($0
+endsnippet
+
+snippet pro
+protected function ${1:functionName}($0
+endsnippet
+
+snippet testcase
+<?php
+
+namespace Tests\\${1:Unit};
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+
+class ${2:Example}Test extends TestCase
+{
+	/** @test */
+	function ${3:functionName}()
+	{
+		$0
+	}
+}
+endsnippet
+
+snippet @t
+/** @test */
+endsnippet
+
+snippet tn
+/** @test */
+function ${1:functionName}()
+{
+	$0
+}
+endsnippet

@@ -1,0 +1,31 @@
+alias phpunit="vendor/bin/phpunit"
+alias spec="vendor/bin/phpspec"
+alias behat="vendor/bin/behat"
+alias ploc="vendor/bin/phploc"
+
+
+alias art="php artisan"
+alias tinker="php artisan tinker"
+alias migrate="php artisan migrate"
+
+alias artmm="php artisan make:model"
+alias artmc="php artisan make:controller"
+alias artmmg="php artisan make:migration"
+
+
+alias webpack="./node_modules/.bin/webpack"
+
+alias ag="ag --path-to-ignore ~/.agignore"
+
+
+alias nah="git reset --hard && git clean -df"
+
+
+alias code="cd ~/Code"
+alias site="cd ~/Valet/"
+alias hack="cd ~/Hacking"
+alias 53="site && 53"
+alias 54="site && 54"
+alias 55="site && 55"
+alias forum="site && forum"
+alias ticket="site && ticketbeast"
