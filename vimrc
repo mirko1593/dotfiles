@@ -132,7 +132,7 @@ nmap <leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<cr>
 noremap <c-z> <nop>
 
 command! Q q            " bind :Q to :q
-command! W w        
+command! W w
 command! Qa qall
 
 " make reasonable linewise move
@@ -155,12 +155,13 @@ augroup basic
     autocmd!
     autocmd BufWritePost .vimrc so %
     autocmd BufWritePost ~/.vim/plugins.vim so $MYVIMRC
+    autocmd BufWritePre * %s/\s\+$//e
 augroup END
 
 
 augroup autoindent
     autocmd!
-    autocmd FileType ruby,eruby,javascript,json setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType ruby,eruby,javascript,json,yaml setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType javascript.html setlocal ts=4 sts=4 sw=4 expandtab
 augroup END
 
@@ -212,7 +213,7 @@ nmap <C-b> :NERDTreeToggle<cr>
 let NERDTreeHijackNetrw = 0
 let NERDTreeShowHidden = 1
 
-"open NERDTree automatically when vim starts with no 
+"open NERDTree automatically when vim starts with no
 "arguments. eg: "vim" or "vim ."
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -226,7 +227,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " : used by FZF
 let g:ag_prg="ag --vimgrep --line-numbers --noheading"
 let g:ag_working_path_mode="r"
-" Usage: 
+" Usage:
 " :Ag [options] {pattern} [{directory}]
 "
 " Shortcuts:
@@ -311,30 +312,43 @@ nnoremap <silent><leader>rf :call PhpCsFixerFixFile()<CR>
 let g:php_cs_fixer_rules = "@PSR2"
 
 
+""" ALE
+let g:airline#extensions#ale#enabled = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+" Run linters only when entering or saving a file
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_save = 1
+
+" Run fixers only when entering or saving a file
+let g:ale_fix_on_save = 1
+
+" show vim windows for the loclist items when exist errors/warnings
+let g:ale_open_list = 1
 
 
-""" syntastic
-" set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+let g:ale_linters = {
+            \   'javascript': ['eslint'],
+            \   'php': ['phpcs']
+            \}
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-"let g:syntastic_php_checkers = ["php", "phpcs", "phpmd"]
-let g:syntastic_php_checkers = ["php", "phpmd"]
-let g:syntastic_html_checkers = ['tidy']
-let g:syntastic_scss_scss_lint_exec = "/usr/local/bin/sass-lint"
-let g:syntastic_scss_checkers = ['sass_lint']
-let g:syntastic_sass_checkers = ['sass-lint']
-let g:syntastic_javascript_checkers = ['eslint']
+
+let g:ale_fixers = {
+            \   'javascript': ['prettier_eslint'],
+            \   'jsx': ['prettier_eslint']
+            \}
+
+
+let g:ale_javascript_prettier_eslint_options = '--single-quote
+            \ --tab-width=2 --print-width=120'
 
 
 
 """ vim-jsx
 "enable jsx syntax highlighting in js files
-let g:jsx_ext_required = 0              
+let g:jsx_ext_required = 0
 
 
 
@@ -364,7 +378,7 @@ let g:user_emmet_leader_key=','
 let g:user_emmet_next_key = '<c-z>n'
 let g:user_emmet_settings = {
             \ 'php' : {
-            \   'extends' : 'html', 
+            \   'extends' : 'html',
             \   'filters' : 'c',
             \ },
             \ 'blade' : {
@@ -384,6 +398,7 @@ augroup frontend
     autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.css
     autocmd BufRead,BufNewFile *.html setlocal filetype=javascript.html
     autocmd BufRead,BufNewFile *.babelrc setlocal filetype=json
+    autocmd BufRead,BufNewFile *.jsx setlocal filetype=javascript.jsx
 augroup END
 
 
@@ -428,26 +443,26 @@ inoremap <C-s> <ESC>:w<cr>
 " Ctrl-] : same to ":tag {ident}"
 " :tag {ident} - Jump to the definition of {ident}, and put
 "               {ident} in the tag stack"
-" ps: so an easy way back if "Ctrl-T", which is jump back 
+" ps: so an easy way back if "Ctrl-T", which is jump back
 "     to older entry in "tag stack"
 "
 "
 " 3> Operations on matching-list:
-" :ts [ident]  -   List tags match [ident], using infomation 
+" :ts [ident]  -   List tags match [ident], using infomation
 "                  in the tags file.
-"                  When [ident] is not given, the last tag name 
+"                  When [ident] is not given, the last tag name
 "                  from tag stack is used.
-" :sts [ident] -   Does ":ts [ident]" and splits the window for 
+" :sts [ident] -   Does ":ts [ident]" and splits the window for
 "                  the selected tag
 " g]           -   Like "Ctrl-]", but use ":ts" instead of ":tag"
 "                  ie: use "matching-list"
-" :tj [ident]  -   Like ":ts", but jump to the tag directly when 
+" :tj [ident]  -   Like ":ts", but jump to the tag directly when
 "              -   there is only one match.
 " :sts [ident] -   Does ":tj" and splits the window for selected tag
 " g Ctrl-]     -   Like "Ctrl-]", but use ":tj" instead of ":tag"
 " [count]tn, tN, tp, tr/tf, tl
-" 
-" The tag match list can also be used in the preview window. The 
+"
+" The tag match list can also be used in the preview window. The
 " commands are the same as above, with a "p" prepended.
 " pts, ptj, ptn, ptN, ptp, ptr, ptf
 "
@@ -463,7 +478,7 @@ nnoremap <silent> [T :tf<cr>
 
 """ Marks
 "
-" m{a-z}  : set mark {a-z} at cursor position, which is 
+" m{a-z}  : set mark {a-z} at cursor position, which is
 "           valid only in current buffer.
 " m{A-Z}  : set mark {A-Z} at cursor position, which is
 "           valid across all files.
@@ -483,19 +498,19 @@ nnoremap <silent> [T :tf<cr>
 " 5. three read-only registers ":, "., "%
 " 6. alternate buffer register "#
 " 7. the expression register "=
-" 8. The selection and drop registers "*, "+ and "~ 
+" 8. The selection and drop registers "*, "+ and "~
 " 9. The black hole register "_
 " 10. Last search pattern register "/
 "
 " ops about register:
 " "{register-name}y  : yield to named-register
 " "{register-name}p  : paste content from named-register
-" Ctrl-r + {register-name}  : paste content from named-register in 
+" Ctrl-r + {register-name}  : paste content from named-register in
 "                           : insert mode.
 " :reg {register-name}  : see all/{register-name} registers and their contens
 "
 " ps: every time vim perform [d, c, s, x] or y, text will be placed in a
-" default register, which can be accessed through "", that what vim uses 
+" default register, which can be accessed through "", that what vim uses
 " to paste: p <=> ""p
 "
 """ numbered registers:
@@ -508,7 +523,7 @@ nnoremap <silent> [T :tf<cr>
 " 3: Specify as uppercase to append to previous content
 "
 """ blackhole register: "_
-" 1: when writing to this register, nothing happens. 
+" 1: when writing to this register, nothing happens.
 " 2: when read from this register, nothing returns
-" 3: this can be used to delete text without affecting the 
+" 3: this can be used to delete text without affecting the
 "    normal register

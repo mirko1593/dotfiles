@@ -21,7 +21,6 @@ alias ag="ag --path-to-ignore ~/.agignore"
 alias nah="git reset --hard && git clean -df"
 
 
-alias code="cd ~/Code"
 alias site="cd ~/Valet/"
 alias hack="cd ~/Hacking"
 alias 53="site && 53"
