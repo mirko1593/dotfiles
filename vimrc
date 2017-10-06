@@ -331,7 +331,7 @@ let g:ale_open_list = 1
 
 let g:ale_linters = {
             \   'javascript': ['eslint'],
-            \   'php': ['phpcs']
+            \   'php': []
             \}
 
 
@@ -417,8 +417,10 @@ nnoremap <S-b> :b
 
 " before this map works, need to disable iterm interrupt <c-s>
 " already put some setting in ~/.zshrc
-nnoremap <C-s> :w<cr>
-inoremap <C-s> <ESC>:w<cr>
+nnoremap  <silent> <C-s> :w<cr>
+inoremap <silent> <C-s> <ESC>:w<cr>
+
+nmap <S-k> a<cr><ESC>
 
 
 "--------------------Concepts--------------------

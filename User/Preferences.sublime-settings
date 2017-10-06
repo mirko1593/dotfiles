@@ -1,0 +1,20 @@
+{
+	"caret_style": "phase",
+	"close_windows_when_empty": true,
+	"color_scheme": "Packages/User/SublimeLinter/base16-google-dark (SL).tmTheme",
+	"ensure_newline_at_eof_on_save": true,
+	"font_face": "Operator Mono Light",
+	"font_size": 14,
+	"hot_exit": false,
+	"ignored_packages":
+	[
+		"PHP"
+	],
+	"line_padding_bottom": 7,
+	"line_padding_top": 7,
+	"phpunit-sublime-terminal": "iTerm",
+	"scroll_past_end": true,
+	"theme": "Spacegray Eighties.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true
+}

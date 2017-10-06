@@ -1,11 +1,12 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-source ~/.alias
-source ~/.path
+export PATH="/Users/mirko/.composer/vendor/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/mirko/.oh-my-zsh
+
+# Load alias
+source ~/.alias
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -66,11 +67,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
- if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
- else
-   export EDITOR='mvim'
- fi
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -86,15 +87,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-
-# base16_sehll to change default ANSI colors
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# zsh
-alias vim="stty stop '' -ixoff ; vim"
-# # `Frozing' tty, so after any command terminal settings will be restored
-ttyctl -f
+# to disable iterm from interpreting Ctrl-s Ctrl-q
+stty -ixon

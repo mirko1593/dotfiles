@@ -1,0 +1,8 @@
+<snippet>
+<content><![CDATA[
+public function ${1}(${2}
+]]></content>
+<tabTrigger>met</tabTrigger>
+<description>PHP Public Method</description>
+<scope>embedding.php, text.html.basic, meta.embedded.block.php, source.php, meta.function.php</scope>
+</snippet>
