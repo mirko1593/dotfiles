@@ -93,3 +93,5 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 
 # to disable iterm from interpreting Ctrl-s Ctrl-q
 stty -ixon
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

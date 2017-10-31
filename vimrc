@@ -19,6 +19,7 @@ set timeout
 set timeoutlen=300
 set ttimeoutlen=0
 set clipboard=unnamed                       " use y/p to yank/paste content from system clipboard in Vim
+set diffopt+=vertical                       " set Gdiff default split direction as vertical
 
 
 let mapleader = ","
@@ -42,6 +43,18 @@ set incsearch
 set hlsearch
 set ignorecase                              "case insensitive pattern matching
 set smartcase                               "overrides ignorecase if pattern contains upcase
+
+""" search in Visual mode and use no-magic regexp
+function! s:VSetSearch(cmdtype)
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
+xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
+
 
 
 """ Split
@@ -105,9 +118,9 @@ hi vertsplit guifg=bg guibg=bg
 """ tabstop is used to convert "#spaces" to a tab
 set autoindent
 set expandtab
-set tabstop=4               "basic tab size
-set shiftwidth=4            "shift width in normal mode
-set softtabstop=4           "tab size in insert mode
+set tabstop=2               "basic tab size
+set shiftwidth=2            "shift width in normal mode
+set softtabstop=2           "tab size in insert mode
 
 
 
@@ -142,8 +155,8 @@ nmap j gj
 nnoremap qq :bufdo bd!<cr>:q<cr>
 
 " re-indentation and back to current position
-silent! nunmap <C-r>
-nmap <C-r> mrggVG=`r
+silent! nunmap <leader>r
+nmap <leader>r mrggVG=`r
 
 
 
@@ -156,15 +169,24 @@ augroup basic
     autocmd BufWritePost .vimrc so %
     autocmd BufWritePost ~/.vim/plugins.vim so $MYVIMRC
     autocmd BufWritePre * %s/\s\+$//e
+    autocmd User fugitive
+          \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+          \   nnoremap <buffer> .. :edit %:h<cr> |
+          \ endif
+    "automatically delete buffers of fugitives
+    autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
 
 
 augroup autoindent
     autocmd!
-    autocmd FileType ruby,eruby,javascript,json,yaml setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType javascript.html setlocal ts=4 sts=4 sw=4 expandtab
+    autocmd FileType ruby,eruby,javascript,json,yaml,css setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType php setlocal ts=4 sts=4 sw=4 expandtab
 augroup END
 
+augroup ruby
+  autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru setfiletype ruby
+augroup end
 
 augroup surround
     autocmd!
@@ -180,20 +202,23 @@ augroup commentary
     autocmd FileType php setlocal commentstring=#\ %s
     autocmd FileType blade setlocal commentstring={{--\ %s\ --}}
 augroup END
+
+augroup frontend
+    autocmd!
+    autocmd FileType html,blade,vue,css,scss,javascript EmmetInstall
+    autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.css
+    autocmd BufRead,BufNewFile *.html setlocal filetype=html.javascript
+    autocmd BufRead,BufNewFile *.babelrc setlocal filetype=json
+    autocmd BufRead,BufNewFile *.jsx setlocal filetype=javascript.jsx
+augroup END
+
+
+
 "--------------------Plugins--------------------
 
 
 """ Airline
 let g:airline_theme='base16'
-
-
-""" Bufferline
-"denotes whether bufferline should automatically echo to the command bar
-let g:bufferline_echo = 0
-"scrolling with fixed current buffer position
-let g:bufferline_rotate = 1
-"current buffer always first
-let g:bufferline_fixed_index = 0
 
 
 
@@ -220,43 +245,6 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
 
-
-
-
-""" Ag
-" : used by FZF
-let g:ag_prg="ag --vimgrep --line-numbers --noheading"
-let g:ag_working_path_mode="r"
-" Usage:
-" :Ag [options] {pattern} [{directory}]
-"
-" Shortcuts:
-" e    to open file and close the quickfix window
-" o    to open (same as enter)
-" go   to preview file (open but maintain focus on ag.vim results)
-" t    to open in new tab
-" T    to open in new tab silently
-" h    to open in horizontal split
-" H    to open in horizontal split silently
-" v    to open in vertical split
-" gv   to open in vertical split silently
-" q    to close the quickfix window
-
-
-
-
-""" Greplace
-set grepprg=ag\ --ignore\ *tags*
-let g:grep_cmd_opts = '--line-numbers --ignore vendor --ignore node_modules --noheading'
-" Usage:
-" 1> use :Gsearch to get a buffer window of search results
-" 2> make replacement in buffer window using traditional tool: s/foo/bar
-" 3> invoke :Greplace to make changes across all files.
-" 4> save changes to all files :wa
-
-
-
-
 """ PDV - PHP Documentor for Vim
 let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 nnoremap <leader>d :call pdv#DocumentWithSnip()<CR>
@@ -273,7 +261,6 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
 """ php-namespaces
-
 function! IPhpInsertUse()
     call PhpInsertUse()
     call feedkeys('a',  'n')
@@ -389,17 +376,14 @@ let g:user_emmet_settings = {
             \ },
 \ }
 
+
+
+
+
 """ Vue
 let g:vue_disable_pre_processors = 1
 
-augroup frontend
-    autocmd!
-    autocmd FileType html,blade,vue,css,scss,javascript EmmetInstall
-    autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.css
-    autocmd BufRead,BufNewFile *.html setlocal filetype=javascript.html
-    autocmd BufRead,BufNewFile *.babelrc setlocal filetype=json
-    autocmd BufRead,BufNewFile *.jsx setlocal filetype=javascript.jsx
-augroup END
+
 
 
 
@@ -421,6 +405,81 @@ nnoremap  <silent> <C-s> :w<cr>
 inoremap <silent> <C-s> <ESC>:w<cr>
 
 nmap <S-k> a<cr><ESC>
+
+
+
+
+
+""" vim-easy-align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+
+
+
+
+""" Abolish
+" 1> basic form, it resembles plain search
+" 2> when specify a file or glob, it resembles ":vimgrep"
+" 3> when a replacement field is specified, it behaves like
+"    built-in ":substitute" command
+" 4> ":Abolish" enhances vim's built-in ":iabbrev" command
+"
+" :S[ubvert]/pattern          : search in current buffer
+" :S[ubvert]/pattern/ {file}...   :search in specified files, collecting
+"                                  results in quickfix list.
+" ps: check for "crc/crm/cs_/cru/cr-"
+"
+"
+" :S[ubvert]/pattern/replacement/[flags]  :substitute in current buffer
+" eg:
+"   ":S/pumpkin/potato/g"   :will substitute "pumpkin/Pumpink/PUMPKIN"
+"   ":S/pumpkin{,s}/potato{,es}/gc"   :substitute plural correctly
+"   ":S/m{ouse,ice}/tracpad{,s}/gc"
+"   ":S/insert_mode/replace_mode/gc"  :will also substitute
+"                                     "InsertMode/ReplaceMode" as well.
+"   ":S/{vim,tmux}/{tmux,vim}/g"      :swap two words
+"
+"
+" ":Abolish {hon,col}our{,s,ed,ing} {}or{}"     :will generate 2*4*2 abbreviations
+" ps: the last 2 is for 2 another format: Camel Case and UPPERCASE(Color/COLOR)
+
+
+
+
+
+"-----------------Find-and-Replace---------------
+" vimgrep
+"   :vimgrep is Vim’s built-in command for searching
+"    across multiple files
+" vim[grep][!] /{pattern}/[g][j] {file}...
+"   :search for {pattern} in the files {file}... and update
+"    quickfix list with matches
+" g: add every match
+" j: not jump to first match, only update quickfix list
+"
+"
+""" Project-wide find and replace
+" 1> populating the arglist with ":args" command
+"     eg: args: `ag -g . app/`
+" 2> find matches across arglist with ":vimgrep"
+"     eg: vimgrep /Vimcast\.\zscom/g ##
+"     "##" denotes filenames in arglist
+" 3> replace with substitute command
+"     eg: cdo %s/Vimcasts\.\zscom/org/ge
+" 4> write back to file
+"     eg: cdo update
+" ps: ":update" only ":write" when buffer has been modified
+"
+"
+""" ps: ":lvim[grep]" and ":ldo" update "location list",
+"       which is similar to "quickfix list" but accociated
+"       with a window not whole vim.
+
+
 
 
 "--------------------Concepts--------------------
@@ -467,12 +526,6 @@ nmap <S-k> a<cr><ESC>
 " The tag match list can also be used in the preview window. The
 " commands are the same as above, with a "p" prepended.
 " pts, ptj, ptn, ptN, ptp, ptr, ptf
-"
-" Key-mapping provided by "tpope/un-impaired"
-nnoremap <silent> ]t :tn<cr>
-nnoremap <silent> [t :tp<cr>
-nnoremap <silent> ]T :tl<cr>
-nnoremap <silent> [T :tf<cr>
 
 
 
