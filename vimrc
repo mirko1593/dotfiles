@@ -205,7 +205,7 @@ augroup END
 
 augroup frontend
     autocmd!
-    autocmd FileType html,blade,vue,css,scss,javascript EmmetInstall
+    autocmd FileType html,blade,vue,css,scss,javascript,eruby EmmetInstall
     autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.css
     autocmd BufRead,BufNewFile *.html setlocal filetype=html.javascript
     autocmd BufRead,BufNewFile *.babelrc setlocal filetype=json
@@ -308,28 +308,22 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " Run linters only when entering or saving a file
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1
+let g:ale_linters = { 'javascript': ['eslint', 'flow'] }
 
-" Run fixers only when entering or saving a file
-let g:ale_fix_on_save = 1
 
 " show vim windows for the loclist items when exist errors/warnings
 let g:ale_open_list = 1
 
+" Run fixers only when entering or saving a file
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {}
 
-let g:ale_linters = {
-            \   'javascript': ['eslint'],
-            \   'php': []
-            \}
-
-
-let g:ale_fixers = {
-            \   'javascript': ['prettier_eslint'],
-            \   'jsx': ['prettier_eslint']
-            \}
+let g:ale_fixers['javascript'] = ['prettier']
+let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
 
 
-let g:ale_javascript_prettier_eslint_options = '--single-quote
-            \ --tab-width=2 --print-width=120'
+
+
 
 
 
@@ -450,7 +444,6 @@ nmap ga <Plug>(EasyAlign)
 
 
 
-
 "-----------------Find-and-Replace---------------
 " vimgrep
 "   :vimgrep is Vim’s built-in command for searching
@@ -478,6 +471,8 @@ nmap ga <Plug>(EasyAlign)
 """ ps: ":lvim[grep]" and ":ldo" update "location list",
 "       which is similar to "quickfix list" but accociated
 "       with a window not whole vim.
+
+
 
 
 
