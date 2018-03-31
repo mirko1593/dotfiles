@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="/Users/mirko/.composer/vendor/bin:$PATH"
+export PATH="/Users/mirko/.spark:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/mirko/.oh-my-zsh

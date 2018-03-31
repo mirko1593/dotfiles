@@ -27,7 +27,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 Plug 'ervandew/supertab'
-Plug 'craigemery/vim-autotag'
+Plug 'mirko1593/vim-autotag'
 Plug 'sheerun/vim-polyglot'
 
 

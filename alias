@@ -1,4 +1,6 @@
-alias phpunit="vendor/bin/phpunit"
+alias pt="vendor/bin/phpunit --exclude-group internet"
+alias ptf="vendor/bin/phpunit --filter"
+alias pti="vendor/bin/phpunit"
 alias spec="vendor/bin/phpspec"
 alias behat="vendor/bin/behat"
 alias ploc="vendor/bin/phploc"

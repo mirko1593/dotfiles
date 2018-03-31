@@ -28,6 +28,8 @@ set relativenumber
 set ruler
 set laststatus=2
 set scrolloff=2
+" set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+" set statusline=%{fugitive#statusline()}
 
 set history=50
 set showcmd
@@ -134,7 +136,7 @@ nmap <leader><space> :nohlsearch<cr>
 
 nmap <leader>f :tag<space>
 " ctags will read config file ~/.ctags
-nmap <leader>rt :!ctags -Rftags<cr>
+nmap <leader>rt :!ctags -R -f tags<cr>
 " generate tags for laravel source code
 nmap <leader>lt :!ctags -R -f tags.laravel vendor/laravel<cr>
 
@@ -173,6 +175,7 @@ augroup basic
           \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
           \   nnoremap <buffer> .. :edit %:h<cr> |
           \ endif
+    "Jump up to the commit object for the current tree by press "C"
     "automatically delete buffers of fugitives
     autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
@@ -219,6 +222,8 @@ augroup END
 
 """ Airline
 let g:airline_theme='base16'
+"let g:airline#extensions#tabline#fnamemod = ':p:.'
+
 
 
 
@@ -290,7 +295,8 @@ vmap <leader>su ! awk '{ print length(), $0 \| "sort -n \| cut -d\\  -f2-" }'<cr
 
 "" autotag
 let g:autotagTagsFile="tags"
-let g:autotagCtagsCmd="ctags -Rftags"
+" let g:autotagCtagsCmd="ctags -Rf tags"
+let g:autotagStopAt=".git"
 
 
 """ php-cs-fixer
@@ -309,6 +315,10 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1
 let g:ale_linters = { 'javascript': ['eslint', 'flow'] }
+let g:ale_linters["php"] = ["php"]
+let g:ale_linters["scss"] = ["prettier"]
+let g:ale_linters["css"] = ["prettier"]
+let g:ale_linters["vue"] = ["prettier"]
 
 
 " show vim windows for the loclist items when exist errors/warnings
@@ -319,11 +329,9 @@ let g:ale_fix_on_save = 1
 let g:ale_fixers = {}
 
 let g:ale_fixers['javascript'] = ['prettier']
+let g:ale_fixers['scss'] = ['prettier']
+let g:ale_fixers['vue'] = ['prettier']
 let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
-
-
-
-
 
 
 
