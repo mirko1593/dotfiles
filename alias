@@ -9,6 +9,7 @@ alias ploc="vendor/bin/phploc"
 alias art="php artisan"
 alias tinker="php artisan tinker"
 alias migrate="php artisan migrate"
+alias mfs="php artisan migrate:fresh --seed"
 
 alias artmm="php artisan make:model"
 alias artmc="php artisan make:controller"
@@ -21,6 +22,9 @@ alias ag="ag --path-to-ignore ~/.agignore"
 
 
 alias nah="git reset --hard && git clean -df"
+alias wip="git add . && git commit -m 'WIP.'"
+alias glo="git log --oneline"
+alias gs="git status"
 
 
 alias site="cd ~/Valet/"
