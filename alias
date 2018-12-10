@@ -25,6 +25,8 @@ alias nah="git reset --hard && git clean -df"
 alias wip="git add . && git commit -m 'WIP.'"
 alias glo="git log --oneline"
 alias gs="git status"
+alias gmm="git commit -m "
+alias gma="git commit --amend"
 
 
 alias site="cd ~/Valet/"
