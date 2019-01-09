@@ -104,6 +104,8 @@ set diffopt+=vertical
 "--------------------- VISUAL ---------------------
 set background=light
 " Ensure terminal app is using a base16 terminal theme.
+" and download colorscheme from the right repository:
+" https://github.com/martinlindhe/base16-iterm2
 colorscheme base16-google-light
 
 
@@ -218,7 +220,7 @@ augroup end
 "--------------------- PLUGINS ---------------------
 
 "\
-"\ ALE
+            "\ ALE
 "\
 let g:ale_linters_explicit = 1
 let g:ale_sign_error = '>>'
@@ -240,7 +242,7 @@ let g:ale_keep_list_window_open = 0
 
 
 "\
-"\ ALE Linters
+            "\ ALE Linters
 "\
 
 " Run both javascript and vue linter for vue files.
@@ -258,7 +260,7 @@ let g:ale_linters = {
 
 
 "\
-"\ ALE Fixers
+            "\ ALE Fixers
 "\
 
 let g:ale_fix_on_save = 1
@@ -274,7 +276,7 @@ let g:ale_fixers = {
 
 
 "\
-"\ FZF && fzf.vim
+            "\ FZF && fzf.vim
 "\
 nnoremap <C-p> :Files<cr>
 inoremap <C-p> <ESC>:Files<cr>
@@ -290,7 +292,7 @@ inoremap <c-f> <ESC>:Buffers<cr>
 
 
 "\
-"\ NERDTree
+            "\ NERDTree
 "\
 nmap <C-b> :NERDTreeToggle<cr>
 
@@ -307,7 +309,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
 "\
-"\ UltiSnips
+            "\ UltiSnips
 "\
 let g:UltiSnipsSnippetsDir=$HOME."/.vim/UltiSnips"
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -317,7 +319,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
 "\
-"\ vim-surround && vim-commentary
+            "\ vim-surround && vim-commentary
 "\
 augroup surround
     autocmd!
@@ -339,7 +341,7 @@ augroup END
 
 
 "\
-"\ Airline
+            "\ Airline
 "\
 let g:airline_theme='base16'
 "let g:airline#extensions#tabline#fnamemod = ':p:.'
@@ -349,7 +351,7 @@ let g:airline_theme='base16'
 
 
 "\
-"\ php-namespace
+            "\ php-namespace
 "\
 function! IPhpInsertUse()
     call PhpInsertUse()
@@ -377,7 +379,7 @@ vmap <leader>su ! awk '{ print length(), $0 \| "sort -n \| cut -d\\  -f2-" }'<cr
 
 
 "\
-"\ Vue
+            "\ Vue
 "\
 let g:vue_disable_pre_processors = 1
 
@@ -386,7 +388,7 @@ let g:vue_disable_pre_processors = 1
 
 
 "\
-"\ autotag
+            "\ autotag
 "\
 let g:autotagTagsFile="tags"
 " let g:autotagCtagsCmd="ctags -Rf tags"
