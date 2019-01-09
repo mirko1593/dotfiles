@@ -281,6 +281,9 @@ let g:ale_fixers = {
 nnoremap <C-p> :Files<cr>
 inoremap <C-p> <ESC>:Files<cr>
 
+" Since fzf.vim use --sort=yes as default for buffer_tags
+" Only way to preserve order is to update source code of: 
+" ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim
 nnoremap <C-e> :BTags<cr>
 inoremap <C-e> <ESC>:BTags<cr>
 
