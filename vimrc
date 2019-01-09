@@ -103,7 +103,7 @@ set diffopt+=vertical
 
 "--------------------- VISUAL ---------------------
 set background=light
-" Ensure terminal app is using a base16 terminal theme. 
+" Ensure terminal app is using a base16 terminal theme.
 colorscheme base16-google-light
 
 
@@ -264,10 +264,9 @@ let g:ale_linters = {
 let g:ale_fix_on_save = 1
 
 let g:ale_fixers = {
-            \   'javascript': ['prettier'],
-            \   'vue': ['prettier'],
+            \   'javascript': ['eslint'],
+            \   'vue': ['eslint'],
             \ }
-let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
 
 
 
