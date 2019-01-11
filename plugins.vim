@@ -21,6 +21,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'mirko1593/vim-autotag'
 Plug 'sheerun/vim-polyglot'
+Plug 'mattn/emmet-vim'
 
 
 

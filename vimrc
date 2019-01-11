@@ -95,7 +95,7 @@ autocmd VimResized * :wincmd =
 
 
 " Set Gdiff default split direction as vertical
-set diffopt+=vertical
+" set diffopt+=vertical
 
 
 
@@ -158,8 +158,6 @@ nmap <leader>lt :!ctags -R -f tags.laravel vendor/laravel<cr>
 "edit file in current director
 nmap <leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<cr>
 
-" disable suspend in vim for use of emmet
-noremap <c-z> <nop>
 
 command! Q q            " bind :Q to :q
 command! W w
@@ -282,7 +280,7 @@ nnoremap <C-p> :Files<cr>
 inoremap <C-p> <ESC>:Files<cr>
 
 " Since fzf.vim use --sort=yes as default for buffer_tags
-" Only way to preserve order is to update source code of: 
+" Only way to preserve order is to update source code of:
 " ~/.vim/plugged/fzf.vim/autoload/fzf/vim.vim
 nnoremap <C-e> :BTags<cr>
 inoremap <C-e> <ESC>:BTags<cr>
@@ -338,6 +336,24 @@ augroup commentary
     autocmd FileType php setlocal commentstring=#\ %s
     autocmd FileType blade setlocal commentstring={{--\ %s\ --}}
 augroup END
+
+
+
+
+
+
+"\
+            "\ Emmet
+"\
+" disable suspend in vim for use of emmet
+noremap <c-z> <nop>
+let g:user_emmet_leader_key = ','
+let g:user_emmet_mode = "i"
+augroup emmet
+    autocmd!
+    autocmd FileType html,vue,blade,css EmmetInstall
+augroup END
+
 
 
 
