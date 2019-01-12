@@ -48,8 +48,6 @@ set ruler
 set laststatus=2
 set scrolloff=2
 set history=50
-" set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-" set statusline=%{fugitive#statusline()}
 
 
 
@@ -186,17 +184,6 @@ augroup autosourcing
     autocmd BufWritePost ~/.vim/plugins.vim so $MYVIMRC
 augroup END
 
-augroup fugitive
-    autocmd!
-    autocmd BufWritePre * %s/\s\+$//e
-    autocmd User fugitive
-                \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-                \   nnoremap <buffer> .. :edit %:h<cr> |
-                \ endif
-    "Jump up to the commit object for the current tree by press "C"
-    "automatically delete buffers of fugitives
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-augroup END
 
 
 augroup ruby
@@ -310,12 +297,36 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
 "\
+            "\ vim-fugitive
+"\
+
+augroup fugitive
+    autocmd!
+    autocmd BufWritePre * %s/\s\+$//e
+    autocmd User fugitive
+                \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+                \   nnoremap <buffer> .. :edit %:h<cr> |
+                \ endif
+    "Jump up to the commit object for the current tree by press "C"
+    "automatically delete buffers of fugitives
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
+
+" set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+" set statusline=%{fugitive#statusline()}
+
+
+
+
+
+"\
             "\ UltiSnips
 "\
 let g:UltiSnipsSnippetsDir=$HOME."/.vim/UltiSnips"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
 
 
 
