@@ -423,6 +423,8 @@ let g:vue_disable_pre_processors = 1
 let g:autotagTagsFile="tags"
 " let g:autotagCtagsCmd="ctags -Rf tags"
 let g:autotagStopAt=".git"
+let g:autotagExcludeSuffixes="blade.php"
+
 
 
 
