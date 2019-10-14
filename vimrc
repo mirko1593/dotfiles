@@ -189,12 +189,7 @@ augroup END
 augroup ruby
     autocmd!
     autocmd FileType ruby,eruby setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru setfiletype ruby
-augroup end
-
-augroup configfile
-    autocmd!
-    autocmd BufNewFile,BufRead .eslintrc setfiletype javascript
+    autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru set filetype=ruby
 augroup end
 
 
@@ -213,13 +208,13 @@ let g:ale_sign_warning = '--'
 let g:ale_echo_msg_format = '[%linter%] reports: [%s]'
 let g:airline#extensions#ale#enabled = 1
 " Run linters only when entering or saving a file
-let g:ale_lint_on_text_changed = 'never'
-" These are by default.
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_enter = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_filetype_changed = 0
+let g:ale_lint_on_enter = 0
 " show errors in quickfix instead of loclist.
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
 " show vim windows for the loclist items when exist errors/warnings
 let g:ale_open_list = 1
 " hide loclist or quckfix after errors are fixed.
@@ -230,18 +225,18 @@ let g:ale_keep_list_window_open = 0
             "\ ALE Linters
 "\
 
+" These are by default.
+let g:ale_lint_on_save = 1
 " Run both javascript and vue linter for vue files.
-let g:ale_linters_aliases = {
-            \   'vue': ['vue', 'javascript'],
-            \   'jsx': ['javascript']
-            \   }
-
+let g:ale_linters_aliases = { 'vue': ['vue', 'javascript'] }
+let g:vue_pre_processors = []
 
 let g:ale_linters = {
             \   'php': ['php'],
             \   'javascript': ['eslint'],
             \   'vue': ['eslint'],
             \ }
+let g:ale_javascript_eslint_suppress_eslintignore = 1
 
 
 "\
@@ -251,9 +246,13 @@ let g:ale_linters = {
 let g:ale_fix_on_save = 1
 
 let g:ale_fixers = {
-            \   'javascript': ['eslint'],
-            \   'vue': ['eslint'],
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'javascript': ['prettier'],
+            \   'vue': ['prettier'],
+            \   'php': ['php_cs_fixer']
             \ }
+let g:ale_php_cs_fixer_options = '--rules=@PSR2,@PHP73Migration'
+let g:ale_php_cs_fixer_use_global = 1
 
 
 
@@ -326,7 +325,6 @@ let g:UltiSnipsSnippetsDir=$HOME."/.vim/UltiSnips"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
 
 
 
@@ -423,7 +421,7 @@ let g:vue_disable_pre_processors = 1
 let g:autotagTagsFile="tags"
 " let g:autotagCtagsCmd="ctags -Rf tags"
 let g:autotagStopAt=".git"
-let g:autotagExcludeSuffixes="blade.php"
+let g:autotagExcludeSuffixes="blade"
 
 
 

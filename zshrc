@@ -95,3 +95,4 @@ stty -ixon
 
 # Load alias
 source ~/.alias
+export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"

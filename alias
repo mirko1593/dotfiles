@@ -10,6 +10,8 @@ alias art="php artisan"
 alias tinker="php artisan tinker"
 alias migrate="php artisan migrate"
 alias mfs="php artisan migrate:fresh --seed"
+alias horizon="php artisan horizon"
+alias websockets="php artisan websockets:serve"
 
 alias artmm="php artisan make:model"
 alias artmc="php artisan make:controller"
