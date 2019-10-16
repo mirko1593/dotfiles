@@ -355,7 +355,6 @@ augroup END
             "\ Emmet
 "\
 " disable suspend in vim for use of emmet
-noremap <c-z> <nop>
 let g:user_emmet_leader_key = ','
 let g:user_emmet_mode = "i"
 augroup emmet
