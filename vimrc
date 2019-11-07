@@ -78,10 +78,10 @@ xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
 set splitbelow
 " ps. vsp is default to splitleft, set splitright if needed.
 
-nnoremap <C-J> <C-w><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-H> <C-W><C-H>
-nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-J> <C-w><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-H> <C-W><C-H>
+" nnoremap <C-L> <C-W><C-L>
 
 " :wincmd <Bar><cr> Fullscreen current split
 " :wincmd =<cr>     Equal split current screen
@@ -285,6 +285,8 @@ nmap <C-b> :NERDTreeToggle<cr>
 
 let NERDTreeHijackNetrw = 0
 let NERDTreeShowHidden = 1
+let g:NERDTreeMapJumpPrevSibling=""
+let g:NERDTreeMapJumpNextSibling=""
 
 " Open NERDTree automatically when vim starts with no
 " arguments. eg: "vim" or "vim ."
@@ -421,24 +423,6 @@ let g:autotagTagsFile="tags"
 " let g:autotagCtagsCmd="ctags -Rf tags"
 let g:autotagStopAt=".git"
 let g:autotagExcludeSuffixes="blade"
-
-
-
-
-
-
-
-""" tslime.vim
-" send a selection in visual mode to tmux
-vmap <leader>t <Plug>SendSelectionToTmux
-" grab the current method that a cursor is in normal mode
-nmap <leader>m <Plug>NormalModeSendToTmux
-" reset the session, window, and pane info
-" run tmux command in vim command line
-" nmap <leader>.. :Tmux <Tmux-Command><cr>
-" always use the current session and current window
-let g:tslime_always_current_session = 1
-let g:tslime_always_current_window = 1
 
 
 

@@ -35,6 +35,6 @@ Plug 'posva/vim-vue'
 
 "--------------------- Tmux ---------------------
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'jgdavey/tslime.vim'
+Plug 'christoomey/vim-tmux-runner'
 
 call plug#end()

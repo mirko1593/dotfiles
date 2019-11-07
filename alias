@@ -38,3 +38,6 @@ alias 54="site && 54"
 alias 55="site && 55"
 alias forum="site && forum"
 alias ticket="site && ticketbeast"
+
+alias py="python3"
+alias pp="pip3"
