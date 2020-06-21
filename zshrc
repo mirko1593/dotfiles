@@ -67,7 +67,7 @@ export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
+export EDITOR='vim'
 # else
 #   export EDITOR='mvim'
 # fi
@@ -96,3 +96,10 @@ stty -ixon
 # Load alias
 source ~/.alias
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
+
+export PATH="$PATH:/usr/local/go/bin"
+export GOPATH="/Users/mirko/golib"
+export PATH="$PATH:$GOPATH/bin"
+export GOPATH="$GOPATH:/Users/mirko/gocode"

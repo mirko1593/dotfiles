@@ -16,6 +16,7 @@ alias wss="php artisan websockets:serve"
 alias artmm="php artisan make:model"
 alias artmc="php artisan make:controller"
 alias artmmg="php artisan make:migration"
+alias artml="php artisan make:livewire"
 
 
 alias webpack="./node_modules/.bin/webpack"

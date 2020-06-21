@@ -188,10 +188,15 @@ augroup END
 
 augroup ruby
     autocmd!
-    autocmd FileType ruby,eruby setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
     autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru set filetype=ruby
 augroup end
 
+augroup laravel
+    autocmd!
+    " autocmd BufNewFile,BufRead * if match(getline(1),"blade") >= 0 | set filetype=javascript | endif
+
+augroup end
 
 
 
@@ -235,6 +240,7 @@ let g:ale_linters = {
             \   'php': ['php'],
             \   'javascript': ['eslint'],
             \   'vue': ['eslint'],
+            \   'go': ['golint']
             \ }
 let g:ale_javascript_eslint_suppress_eslintignore = 1
 
@@ -249,7 +255,8 @@ let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
             \   'javascript': ['prettier'],
             \   'vue': ['prettier'],
-            \   'php': ['php_cs_fixer']
+            \   'php': ['php_cs_fixer'],
+            \   'go': ['gofmt']
             \ }
 let g:ale_php_cs_fixer_options = '--rules=@PSR2,@PHP73Migration'
 let g:ale_php_cs_fixer_use_global = 1
@@ -426,7 +433,15 @@ let g:autotagExcludeSuffixes="blade"
 
 
 
-
+"\
+            "\ vim-go
+"\
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
 
 
 

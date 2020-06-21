@@ -27,11 +27,13 @@ Plug 'vim-airline/vim-airline-themes'
 "--------------------- PHP ---------------------
 Plug 'StanAngeloff/php.vim', { 'for': ['php', 'blade'] }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': ['php'] }
+Plug 'jwalton512/vim-blade'
 
 
 "--------------------- Javascript && Vue ---------------------
 Plug 'pangloss/vim-javascript'
 Plug 'posva/vim-vue'
+
 
 "--------------------- Tmux ---------------------
 Plug 'christoomey/vim-tmux-navigator'
