@@ -100,7 +100,7 @@ autocmd VimResized * :wincmd =
 
 
 "--------------------- VISUAL ---------------------
-set background=light
+set background=dark
 " Ensure terminal app is using a base16 terminal theme.
 " and download colorscheme from the right repository:
 " https://github.com/martinlindhe/base16-iterm2
