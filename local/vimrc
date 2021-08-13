@@ -28,6 +28,11 @@ set autowrite                      "automatic write back to file(unnessary)
 set directory=$HOME/.vim/swapfiles//    "save swapfiles in one place
 vnoremap <leader>y "+y
 nnoremap <leader>y "+y
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>P "+P
+
 
 
 
@@ -97,7 +102,7 @@ set background=dark
 " https://github.com/martinlindhe/base16-iterm2
 colorscheme base16-google-light
 
-hi LineNr ctermbg=bg
+hi LineNr ctermbg=bg ctermfg=bg
 "set foldcolumn=2
 "hi foldcolumn ctermbg=bg
 hi vertsplit ctermbg=bg ctermfg=bg
@@ -128,13 +133,13 @@ nnoremap  <silent> <C-s> :w<cr>
 inoremap <silent> <C-s> <ESC>:w<cr>
 
 "<S-J> join lines
-nmap <S-k> a<cr><ESC>  
+nmap <S-k> a<cr><ESC>
 
 "edit file in current director
 nmap <leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<cr>
 
-nnoremap <leader>b :Vex<cr>             
 vnoremap <leader>v "_dP
+nnoremap <space> za
 
 
 
@@ -145,7 +150,6 @@ vnoremap <leader>v "_dP
 " arguments. eg: "vim" or "vim ."
 augroup enter
     autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | :Explore | endif
 augroup END
 
 augroup setting
@@ -163,6 +167,14 @@ augroup ruby
     autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
     autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru set filetype=ruby
 augroup end
+
+augroup go
+    autocmd!
+    autocmd FileType go nmap <leader>t :GoTest<CR>
+    autocmd FileType go nmap <leader>tf :GoTestFunc<CR>
+    autocmd BufRead,BufNewFile,BufWritePost *.proto setfiletype proto
+    autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
+augroup END
 
 augroup cursor_behaviour
     autocmd!
@@ -199,3 +211,48 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "supertab
 inoremap <expr> <c-j> ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> <c-k> ((pumvisible())?("\<C-p>"):("k"))
+
+"vim-fugitive
+augroup fugtive
+    autocmd!
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+    autocmd User fugitive nnoremap <buffer> .. :edit %:h<CR>
+augroup END
+
+"nerdtree
+nmap <C-b> :NERDTreeToggle<cr>
+let NERDTreeHijackNetrw = 0
+let NERDTreeShowHidden = 1
+let g:NERDTreeMapJumpPrevSibling=""
+let g:NERDTreeMapJumpNextSibling=""
+" Open NERDTree automatically when vim starts with no
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+"vim-go
+" let g:go_metalinter_enabled = ['GoLint']
+" let g:go_metalinter_autosave = 1
+" let g:go_metalinter_autosave_enabled = ['GoLint']
+" let g:go_metalinter_deadline = "5s"
+" let g:go_list_type = "quickfix"
+
+"ale
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+" Write this in your vimrc file
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+" You can disable this option too
+" if you don't want linters to run on opening a file
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+
+let g:ale_linters = {
+\ '*':  ['remove_trailing_lines', 'trim_whitespace'],
+\ 'go': ['golint', 'govet'],
+\ 'proto': [],
+\ }
+
+set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+

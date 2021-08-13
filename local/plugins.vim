@@ -4,13 +4,16 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
-
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-unimpaired'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
+Plug 'preservim/nerdtree'
+Plug 'dense-analysis/ale'
 
 "--------------------- Language-Go ---------------------
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
