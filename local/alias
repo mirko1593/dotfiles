@@ -1,6 +1,0 @@
-alias nah="git reset --hard && git clean -df"
-alias wip="git add . && git commit -m 'WIP.'"
-alias glo="git log --oneline"
-alias gs="git status"
-alias gcm="git commit -m "
-alias gca="git commit --amend"

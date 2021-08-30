@@ -217,6 +217,8 @@ augroup fugtive
     autocmd!
     autocmd BufReadPost fugitive://* set bufhidden=delete
     autocmd User fugitive nnoremap <buffer> .. :edit %:h<CR>
+    autocmd FileType netrw nunmap <C-R>
+    autocmd FileType netrw nnoremap <C-R> :Buffers<cr>
 augroup END
 
 "nerdtree

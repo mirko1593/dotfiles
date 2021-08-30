@@ -1,0 +1,5 @@
+mac/vim/swapfiles/*
+mac/vim/plugged/*
+
+linux/vim/swapfiles/*
+linux/vim/plugged/*

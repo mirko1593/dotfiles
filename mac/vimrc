@@ -1,0 +1,260 @@
+"=============== Basic ===================
+set nocompatible
+filetype plugin indent on
+let mapleader=","
+syntax on
+
+so ~/.vim/plugins.vim
+
+"mouse move laziness
+set timeout
+set timeoutlen=300
+set ttimeoutlen=0
+
+set noeb vb t_vb=
+set backspace=indent,eol,start  	"backspace on indent,eof,start of line
+set scrolloff=8
+set history=50
+language en_US.UTF-8
+set t_CO=256
+set noshowmode
+
+set hidden                          "unsaved modification to buffer behind
+                                    "windonw.
+set autoread                        "automatic read updated file
+set autowrite                      "automatic write back to file(unnessary)
+
+"set clipboard=unnamed               "sync with system clipboard
+set directory=$HOME/.vim/swapfiles//    "save swapfiles in one place
+vnoremap <leader>y "+y
+nnoremap <leader>y "+y
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>P "+P
+
+
+
+
+
+
+"=============== Setting ===================
+"search
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+nmap <leader><space> :nohlsearch<cr>
+
+"visual mode and use no-magic regexp
+function! s:VSetSearch(cmdtype)
+    let temp = @s
+    norm! gv"sy
+    let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+    let @s = temp
+endfunction
+
+xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
+
+"indentation
+set autoindent
+set expandtab
+set tabstop=4               "basic tab size
+set softtabstop=4           "tab size in insert mode
+set shiftwidth=4            "shift width in normal mode
+
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+
+"split
+set splitbelow              "default horizontal split direction up
+set splitright             "default vertical split to left
+
+" nnoremap <C-J> <C-w><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
+"<C-W> s -- new window
+
+
+nnoremap <C-o> <C-W><C-o>
+"<C-W><Bar>     fullscreen current split
+"<C-W>=         equal screen split
+
+" Set Gdiff default split direction as vertical
+" set diffopt+=vertical
+
+"autcomplete
+set complete=.,w,b,u
+set completeopt-=preview
+set cpoptions+=d
+
+
+
+
+
+"=============== Visual ===================
+set background=dark
+" Ensure terminal app is using a base16 terminal theme.
+" and download colorscheme from the right repository:
+" https://github.com/martinlindhe/base16-iterm2
+colorscheme base16-google-light
+
+hi LineNr ctermbg=bg ctermfg=bg
+"set foldcolumn=2
+"hi foldcolumn ctermbg=bg
+hi vertsplit ctermbg=bg ctermfg=bg
+hi CursorLine ctermbg=bg ctermfg=bg
+
+
+"number
+set number
+set relativenumber
+set numberwidth=4
+
+"status bar
+set ruler
+set laststatus=2
+
+
+
+
+
+"=============== Mappings ===================
+nmap <leader>ev :e $MYVIMRC<cr>
+nmap <leader>ep :split ~/.vim/plugins.vim<cr>
+nmap <leader>et :split ~/.tmux.conf<cr>
+
+" before this map works, need to disable iterm interrupt <c-s>
+" already put some setting in ~/.zshrc
+nnoremap  <silent> <C-s> :w<cr>
+inoremap <silent> <C-s> <ESC>:w<cr>
+
+"<S-J> join lines
+nmap <S-k> a<cr><ESC>
+
+"edit file in current director
+nmap <leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<cr>
+
+vnoremap <leader>v "_dP
+nnoremap <space> za
+
+
+
+
+
+"=============== AutoCommands ===================
+" Open Explore automatically when vim starts with no
+" arguments. eg: "vim" or "vim ."
+augroup enter
+    autocmd StdinReadPre * let s:std_in=1
+augroup END
+
+augroup setting
+    autocmd!
+    autocmd FileType help nmap <buffer> q :q<cr>
+    autocmd BufLeave help unmap q
+    "autocmd FileType netrw nnoremap Q :q<cr>
+	autocmd BufWritePost .vimrc so %
+    autocmd BufWritePost ~/.vim/plugins.vim so $MYVIMRC
+    autocmd VimResized * :wincmd =
+augroup END
+
+augroup ruby
+    autocmd!
+    autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru set filetype=ruby
+augroup end
+
+augroup go
+    autocmd!
+    autocmd FileType go nmap <leader>t :GoTest<CR>
+    autocmd FileType go nmap <leader>tf :GoTestFunc<CR>
+    autocmd BufRead,BufNewFile,BufWritePost *.proto setfiletype proto
+    autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
+augroup END
+
+augroup cursor_behaviour
+    autocmd!
+
+    " reset cursor on start:
+    autocmd VimEnter * silent !echo -ne "\e[2 q"
+    " cursor blinking bar on insert mode
+    let &t_SI = "\e[1 q"
+    " cursor steady block on command mode
+    let &t_EI = "\e[2 q"
+    " turn on/off line hi when enter/leave insert mode
+    "autocmd InsertEnter,InsertLeave * set cul!
+augroup END
+
+
+
+
+
+"================ Plugins ====================
+"fzf
+nnoremap <C-p> :Files<CR>
+nnoremap <C-f> :BTags<CR>
+nnoremap <C-r> :Buffers<CR>
+
+"goyo
+nnoremap gf :Goyo<CR>
+
+"ultisnips
+let g:UltiSnipsSnippetsDir=$HOME."/.vim/UltiSnips"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+"supertab
+inoremap <expr> <c-j> ((pumvisible())?("\<C-n>"):("j"))
+inoremap <expr> <c-k> ((pumvisible())?("\<C-p>"):("k"))
+
+"vim-fugitive
+augroup fugtive
+    autocmd!
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+    autocmd User fugitive nnoremap <buffer> .. :edit %:h<CR>
+    autocmd FileType netrw nunmap <C-R>
+    autocmd FileType netrw nnoremap <C-R> :Buffers<cr>
+augroup END
+
+"nerdtree
+nmap <C-b> :NERDTreeToggle<cr>
+let NERDTreeHijackNetrw = 0
+let NERDTreeShowHidden = 1
+let g:NERDTreeMapJumpPrevSibling=""
+let g:NERDTreeMapJumpNextSibling=""
+" Open NERDTree automatically when vim starts with no
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+"vim-go
+" let g:go_metalinter_enabled = ['GoLint']
+" let g:go_metalinter_autosave = 1
+" let g:go_metalinter_autosave_enabled = ['GoLint']
+" let g:go_metalinter_deadline = "5s"
+" let g:go_list_type = "quickfix"
+
+"ale
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+" Write this in your vimrc file
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+" You can disable this option too
+" if you don't want linters to run on opening a file
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+
+let g:ale_linters = {
+\ '*':  ['remove_trailing_lines', 'trim_whitespace'],
+\ 'go': ['golint', 'govet'],
+\ 'proto': [],
+\ }
+
+set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+

@@ -1,0 +1,15 @@
+snippet breq
+  BaseReq comm = 1;
+  message ReqPara {
+    ${1}
+  }
+  ReqPara para = 2;
+endsnippet
+
+snippet bret
+  BaseRet result = 1;
+  message RetData {
+    ${2}
+  }
+  RetData data = 2;
+endsnippet
