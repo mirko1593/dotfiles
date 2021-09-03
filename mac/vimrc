@@ -197,7 +197,7 @@ augroup END
 "fzf
 nnoremap <C-p> :Files<CR>
 nnoremap <C-f> :BTags<CR>
-nnoremap <C-r> :Buffers<CR>
+nnoremap <leader>b :Buffers<CR>
 
 "goyo
 nnoremap gf :Goyo<CR>
@@ -236,7 +236,8 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " let g:go_metalinter_autosave = 1
 " let g:go_metalinter_autosave_enabled = ['GoLint']
 " let g:go_metalinter_deadline = "5s"
-" let g:go_list_type = "quickfix"
+let g:go_list_type = "quickfix"
+let g:go_metalinter_enabled = []
 
 "ale
 let g:ale_set_loclist = 0
@@ -249,6 +250,7 @@ let g:ale_lint_on_insert_leave = 0
 " if you don't want linters to run on opening a file
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
+let g:ale_linters_explicit = 1
 
 let g:ale_linters = {
 \ '*':  ['remove_trailing_lines', 'trim_whitespace'],
