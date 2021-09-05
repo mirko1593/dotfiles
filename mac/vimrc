@@ -173,6 +173,9 @@ augroup go
     "autocmd BufRead,BufWritePost *.go silent :!gofmt -w %
     autocmd BufRead,BufNewFile,BufWritePost *.proto setfiletype proto
     autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType go setlocal makeprg=revive
+    autocmd BufWritePost *.go silent make! % | silent redraw!
+    autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
 
 
@@ -232,34 +235,6 @@ let g:NERDTreeMapJumpNextSibling=""
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-
-" ale
-
-"fix
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'go': ['gofmt', 'goimports'],
-\}
-
-"lint
-
-" Only run linters named in ale_linters settings.
-let g:ale_linters_explicit = 1
-" Write this in your vimrc file
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-" You can disable this option too
-" if you don't want linters to run on opening a file
-" Write this in your vimrc file
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
-let g:ale_linters = {
-\   'go': ['revive'],
-\}
 
 
 " vim-lsp
