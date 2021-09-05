@@ -102,11 +102,11 @@ set background=dark
 " https://github.com/martinlindhe/base16-iterm2
 colorscheme base16-google-light
 
-hi LineNr ctermbg=bg ctermfg=bg
+hi LineNr ctermbg=bg ctermfg=gray
 "set foldcolumn=2
 "hi foldcolumn ctermbg=bg
 hi vertsplit ctermbg=bg ctermfg=bg
-hi CursorLine ctermbg=bg ctermfg=bg
+hi CursorLine ctermbg=gray ctermfg=bg
 
 
 "number
@@ -170,11 +170,12 @@ augroup end
 
 augroup go
     autocmd!
-    autocmd FileType go nmap <leader>t :GoTest<CR>
-    autocmd FileType go nmap <leader>tf :GoTestFunc<CR>
+    "autocmd BufRead,BufWritePost *.go silent :!gofmt -w %
     autocmd BufRead,BufNewFile,BufWritePost *.proto setfiletype proto
     autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
 augroup END
+
+
 
 augroup cursor_behaviour
     autocmd!
@@ -231,32 +232,46 @@ let g:NERDTreeMapJumpNextSibling=""
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-"vim-go
-" let g:go_metalinter_enabled = ['GoLint']
-" let g:go_metalinter_autosave = 1
-" let g:go_metalinter_autosave_enabled = ['GoLint']
-" let g:go_metalinter_deadline = "5s"
-let g:go_list_type = "quickfix"
-let g:go_metalinter_enabled = []
 
-"ale
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
+" ale
+
+"fix
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'go': ['gofmt', 'goimports'],
+\}
+
+"lint
+
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
 " Write this in your vimrc file
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 " You can disable this option too
 " if you don't want linters to run on opening a file
+" Write this in your vimrc file
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
-let g:ale_linters_explicit = 1
-
 let g:ale_linters = {
-\ '*':  ['remove_trailing_lines', 'trim_whitespace'],
-\ 'go': ['golint', 'govet'],
-\ 'proto': [],
-\ }
+\   'go': ['revive'],
+\}
 
-set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 
+" vim-lsp
+augroup LspGo
+  au!
+  autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'go-lang',
+      \ 'cmd': {server_info->['gopls']},
+      \ 'whitelist': ['go'],
+      \ })
+  autocmd FileType go setlocal omnifunc=lsp#complete
+  autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
+  "autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
+  "autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
+augroup END

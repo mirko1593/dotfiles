@@ -14,9 +14,10 @@ Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'preservim/nerdtree'
 Plug 'dense-analysis/ale'
+Plug 'prabirshrestha/vim-lsp'
 
 "--------------------- Language-Go ---------------------
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+" Plug 'govim/govim'
 
 "--------------------- Tmux ---------------------
 Plug 'christoomey/vim-tmux-navigator'
