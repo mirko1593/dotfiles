@@ -144,6 +144,10 @@ nnoremap <space> za
 
 
 
+"=============== Commands ===================
+command! -nargs=+ -complete=file_in_path Gr execute 'silent grep! <args>' | copen | silent redraw!
+
+
 
 
 "=============== AutoCommands ===================
@@ -253,3 +257,4 @@ augroup LspGo
   autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
   autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
 augroup END
+
