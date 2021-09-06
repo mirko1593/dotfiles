@@ -171,11 +171,11 @@ augroup end
 
 augroup go
     autocmd!
+    autocmd BufRead,BufNewFile,BufWritePost *.proto setfiletype proto
+    autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
     " gofmt was handled by gopls
     " autocmd BufRead,BufWritePost *.go silent :!gofmt -w %
     autocmd BufRead,BufWritePost *.go silent :!goimports -w %
-    autocmd BufRead,BufNewFile,BufWritePost *.proto setfiletype proto
-    autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType go setlocal makeprg=revive
     autocmd BufWritePost *.go silent make! % | silent redraw!
     autocmd QuickFixCmdPost [^l]* cwindow
