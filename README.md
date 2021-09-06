@@ -14,7 +14,7 @@ $ source ~/.zshrc
 
 # Vim
 ```
-$ brew install vim
+$ brew install vim the_silver_searcher
 
 $ ln -s ~/code/dotfiles/mac/vimrc ~/.vimrc
 
