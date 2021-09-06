@@ -16,7 +16,7 @@ Plug 'preservim/nerdtree'
 Plug 'prabirshrestha/vim-lsp'
 
 "--------------------- Language-Go ---------------------
-" Plug 'govim/govim'
+" install gopls for vim-lsp
 
 "--------------------- Tmux ---------------------
 Plug 'christoomey/vim-tmux-navigator'

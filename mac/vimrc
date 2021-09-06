@@ -104,7 +104,7 @@ colorscheme base16-google-light
 
 hi LineNr ctermbg=bg ctermfg=gray
 "set foldcolumn=2
-"hi foldcolumn ctermbg=bg
+hi foldcolumn ctermbg=bg
 hi vertsplit ctermbg=bg ctermfg=bg
 hi CursorLine ctermbg=gray ctermfg=bg
 
@@ -117,6 +117,7 @@ set numberwidth=4
 "status bar
 set ruler
 set laststatus=2
+set signcolumn=no
 
 
 
@@ -249,6 +250,6 @@ augroup LspGo
       \ })
   autocmd FileType go setlocal omnifunc=lsp#complete
   autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
-  "autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
-  "autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
+  autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
+  autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
 augroup END
