@@ -149,7 +149,6 @@ command! -nargs=+ -complete=file_in_path Gr execute 'silent grep! <args>' | cope
 
 
 
-
 "=============== AutoCommands ===================
 " Open Explore automatically when vim starts with no
 " arguments. eg: "vim" or "vim ."
@@ -184,8 +183,6 @@ augroup go
     autocmd BufWritePost *.go silent make! % | silent redraw!
     autocmd QuickFixCmdPost [^l]* cwindow
 augroup END
-
-
 
 augroup cursor_behaviour
     autocmd!
@@ -246,16 +243,17 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
 " vim-lsp
-augroup LspGo
-  au!
-  autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'go-lang',
-      \ 'cmd': {server_info->['gopls']},
-      \ 'whitelist': ['go'],
-      \ })
-  autocmd FileType go setlocal omnifunc=lsp#complete
-  autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
-  autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
-  autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
-augroup END
+  " au!
+  " augroup LspGo
+  " autocmd User lsp_setup call lsp#register_server({
+  "     \ 'name': 'go-lang',
+  "     \ 'cmd': {server_info->['gopls']},
+  "     \ 'whitelist': ['go'],
+  "     \ })
+  " autocmd FileType go setlocal omnifunc=lsp#complete
+  " autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
+  " autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
+  " autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
+" augroup END
+" highlight lspReference ctermfg=fg guifg=fg ctermbg=lightgreen guibg=lightgreen
 
