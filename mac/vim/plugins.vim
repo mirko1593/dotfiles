@@ -14,11 +14,12 @@ Plug 'tpope/vim-unimpaired'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'preservim/nerdtree'
-" Plug 'prabirshrestha/vim-lsp'
-Plug 'govim/govim'
+Plug 'prabirshrestha/vim-lsp'
+
 
 "--------------------- Language-Go ---------------------
 " install gopls for vim-lsp
+
 
 "--------------------- Tmux ---------------------
 Plug 'christoomey/vim-tmux-navigator'

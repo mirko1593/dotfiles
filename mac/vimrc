@@ -182,7 +182,10 @@ augroup go
     autocmd FileType go setlocal makeprg=revive
     autocmd BufWritePost *.go silent make! % | silent redraw!
     autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
+    autocmd FileType go nnoremap <leader>cc :lclose<cr>
 augroup END
+
 
 augroup cursor_behaviour
     autocmd!
@@ -243,17 +246,38 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
 " vim-lsp
-  " au!
-  " augroup LspGo
-  " autocmd User lsp_setup call lsp#register_server({
-  "     \ 'name': 'go-lang',
-  "     \ 'cmd': {server_info->['gopls']},
-  "     \ 'whitelist': ['go'],
-  "     \ })
-  " autocmd FileType go setlocal omnifunc=lsp#complete
-  " autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
-  " autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
-  " autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
-" augroup END
-" highlight lspReference ctermfg=fg guifg=fg ctermbg=lightgreen guibg=lightgreen
+augroup LspGo
+  au!
+  autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'go-lang',
+      \ 'cmd': {server_info->['gopls']},
+      \ 'whitelist': ['go'],
+      \ })
+  autocmd FileType go setlocal omnifunc=lsp#complete
+  autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
+  autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
+  autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
+augroup END
+highlight lspReference ctermfg=fg guifg=fg ctermbg=lightgreen guibg=lightgreen
 
+
+"ale
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
+" let g:ale_open_list = 1
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 0
+" let g:ale_lint_on_enter = 0
+
+
+" let g:ale_fix_on_save = 1
+" let g:ale_fixers = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'go': ['goimports', 'gofmt'],
+" \}
+
+
+" let g:ale_linters_explicit = 1
+" let g:ale_linters = {
+" \   'go': [],
+" \}
