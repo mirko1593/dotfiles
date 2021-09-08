@@ -153,6 +153,7 @@ command! -nargs=+ -complete=file_in_path Gr execute 'silent grep! <args>' | cope
 " Open Explore automatically when vim starts with no
 " arguments. eg: "vim" or "vim ."
 augroup enter
+    au!
     autocmd StdinReadPre * let s:std_in=1
 augroup END
 
@@ -178,9 +179,11 @@ augroup go
     autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
     " gofmt was handled by gopls
     " autocmd BufRead,BufWritePost *.go silent :!gofmt -w %
-    autocmd BufRead,BufWritePost *.go silent :!goimports -w %
+    " autocmd BufRead,BufWritePost *.go silent :!goimports -w %
     autocmd FileType go setlocal makeprg=revive
     autocmd BufWritePost *.go silent make! % | silent redraw!
+    autocmd FileType go let b:dispatch="goimports -w %"
+    autocmd BufWritePost *.go :Dispatch!
     autocmd QuickFixCmdPost [^l]* cwindow
     autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType go nnoremap <leader>cc :lclose<cr>
