@@ -67,6 +67,8 @@ set shiftwidth=4            "shift width in normal mode
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+map j gj
+map k gk
 
 "split
 set splitbelow              "default horizontal split direction up
@@ -167,10 +169,39 @@ augroup setting
     autocmd VimResized * :wincmd =
 augroup END
 
+augroup ctags
+    au!
+    autocmd FileType javascript,jsx,ruby,go nnoremap <leader>rt :!ctags -R .<cr>
+    autocmd BufWritePre *.js,*.jsx,*.rb,*.go :Dispatch! ctags %
+augroup end
+
+augroup js
+    autocmd!
+    autocmd FileType javascript set filetype=javascript.jsx
+    autocmd FileType javascript,jsx setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType css,scss let b:prettier_exec_cmd = "prettier-stylelint"
+    autocmd BufWritePre *.js,*.jsx PrettierAsync
+    autocmd FileType *.js,*.jsx setlocal 
+                \ makeprg=./node_modules/eslint/bin/eslint.js
+    autocmd FileType javascript,jsx nnoremap <leader>c :Make! %<cr>
+    " autocmd BufWritePost *.js,*.jsx Make! % 
+    autocmd FileType javascript,jsx nnoremap <leader>cc :lclose<cr>
+augroup end
+
 augroup ruby
     autocmd!
     autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
+    " autocmd FileType eruby set filetype=eruby.html
+    autocmd FileType ruby compiler ruby
     autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru set filetype=ruby
+    " autocmd FileType ruby let b:dispatch="rubocop -f q -x %"
+    autocmd BufWritePre *.rb silent :Dispatch! rubocop -x -f q %
+
+    " autocmd BufWritePost,BufWritePre *.rb :silent LspDocumentDiagnostics
+    autocmd FileType ruby nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
+    autocmd FileType ruby nnoremap <leader>cc :lclose<cr>
+
+    autocmd FileType ruby nnoremap <c-m> :Dispatch! ruby %<cr>
 augroup end
 
 augroup go
@@ -182,8 +213,8 @@ augroup go
     " autocmd BufRead,BufWritePost *.go silent :!goimports -w %
     autocmd FileType go setlocal makeprg=revive
     autocmd BufWritePost *.go silent make! % | silent redraw!
-    autocmd FileType go let b:dispatch="goimports -w %"
-    autocmd BufWritePost *.go :Dispatch!
+    " autocmd FileType go let b:dispatch="goimports -w %"
+    autocmd BufWritePost *.go :Dispatch! goimports -w %
     autocmd QuickFixCmdPost [^l]* cwindow
     autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType go nnoremap <leader>cc :lclose<cr>
@@ -211,7 +242,7 @@ augroup END
 "fzf
 nnoremap <C-p> :Files<CR>
 nnoremap <C-f> :BTags<CR>
-nnoremap <leader>b :Buffers<CR>
+nnoremap <c-e> :Buffers<CR>
 
 "goyo
 nnoremap gf :Goyo<CR>
@@ -256,12 +287,35 @@ augroup LspGo
       \ 'cmd': {server_info->['gopls']},
       \ 'whitelist': ['go'],
       \ })
-  autocmd FileType go setlocal omnifunc=lsp#complete
-  autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
-  autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
-  autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
+  if executable('solargraph')
+      " gem install solargraph
+      au User lsp_setup call lsp#register_server({
+          \ 'name': 'solargraph',
+          \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
+          \ 'initialization_options': {"diagnostics": "true"},
+          \ 'whitelist': ['ruby'],
+          \ })
+  endif
+  autocmd FileType go,ruby setlocal omnifunc=lsp#complete
+  autocmd FileType go,ruby nmap <buffer> gd <plug>(lsp-definition)
+  autocmd FileType go,ruby nmap <buffer> ,n <plug>(lsp-next-error)
+  autocmd FileType go,ruby nmap <buffer> ,p <plug>(lsp-previous-error)
 augroup END
+
+
 highlight lspReference ctermfg=fg guifg=fg ctermbg=lightgreen guibg=lightgreen
+
+
+" emmet-vim
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,eruby,jsx,javascript EmmetInstall
+let g:user_emmet_leader_key=','
+
+" vim-commentary
+augroup Commentary
+    au!
+    autocmd FileType html setlocal commentstring=//\ %s
+augroup end
 
 
 "ale

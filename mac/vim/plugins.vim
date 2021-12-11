@@ -15,13 +15,26 @@ Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'preservim/nerdtree'
 Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/emmet-vim'
 
 
 "--------------------- Language-Go ---------------------
-" install gopls for vim-lsp
+
+
+"--------------------- Language-Ruby ---------------------
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-bundler'
+
+
+"--------------------- Javascript & React ---------------------
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
 
 
 "--------------------- Tmux ---------------------
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-runner'
 
 call plug#end()
