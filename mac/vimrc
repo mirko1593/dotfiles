@@ -247,6 +247,10 @@ nnoremap <c-e> :Buffers<CR>
 "goyo
 nnoremap gf :Goyo<CR>
 
+"easy-align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
 "ultisnips
 let g:UltiSnipsSnippetsDir=$HOME."/.vim/UltiSnips"
 let g:UltiSnipsExpandTrigger="<tab>"
