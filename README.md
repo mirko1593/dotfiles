@@ -5,7 +5,7 @@
 ```
 $ git clone https://github.com/mirko1593/dotfiles.git ~/code/dotfiles
 
-$ ln -s ~/code/dotfiles/mac/zshrc ~/.zshrc
+$ ln -s ~/code/dotfiles/mac/base_zshrc ~/.base_zshrc
 
 $ ln -s ~/code/dotfiles/mac/alias ~/.alias
 
@@ -27,3 +27,20 @@ $ brew install tmux
 
 $ ln -s ~/code/dotfiles/mac/tmux.conf ~/.tmux.conf
 ```
+
+# Go
+```
+$ go install github.com/mgechev/revive@latest
+
+$ go install golang.org/x/tools/cmd/goimports@latest
+
+$ go install golang.org/x/tools/gopls@latest
+```
+
+# Ruby
+```
+
+$ gem install solargraph
+
+```
+
