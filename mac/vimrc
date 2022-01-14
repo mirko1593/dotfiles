@@ -171,8 +171,8 @@ augroup END
 
 augroup ctags
     au!
-    autocmd FileType javascript,jsx,ruby,go nnoremap <leader>rt :!ctags -R .<cr>
-    autocmd BufWritePre *.js,*.jsx,*.rb,*.go :Dispatch! ctags %
+    autocmd FileType javascript,jsx,ruby,go,c nnoremap <leader>rt :!ctags -R .<cr>
+    autocmd BufWritePre *.js,*.jsx,*.rb,*.go,*.c :Dispatch! ctags %
 augroup end
 
 augroup js
