@@ -67,6 +67,8 @@ set shiftwidth=4            "shift width in normal mode
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+map j gj
+map k gk
 
 "split
 set splitbelow              "default horizontal split direction up
@@ -102,11 +104,11 @@ set background=dark
 " https://github.com/martinlindhe/base16-iterm2
 colorscheme base16-google-light
 
-hi LineNr ctermbg=bg ctermfg=bg
+hi LineNr ctermbg=bg ctermfg=gray
 "set foldcolumn=2
-"hi foldcolumn ctermbg=bg
+hi foldcolumn ctermbg=bg
 hi vertsplit ctermbg=bg ctermfg=bg
-hi CursorLine ctermbg=bg ctermfg=bg
+hi CursorLine ctermbg=gray ctermfg=bg
 
 
 "number
@@ -117,6 +119,7 @@ set numberwidth=4
 "status bar
 set ruler
 set laststatus=2
+set signcolumn=no
 
 
 
@@ -143,12 +146,16 @@ nnoremap <space> za
 
 
 
+"=============== Commands ===================
+command! -nargs=+ -complete=file_in_path Gr execute 'silent grep! <args>' | copen | silent redraw!
+
 
 
 "=============== AutoCommands ===================
 " Open Explore automatically when vim starts with no
 " arguments. eg: "vim" or "vim ."
 augroup enter
+    au!
     autocmd StdinReadPre * let s:std_in=1
 augroup END
 
@@ -162,18 +169,60 @@ augroup setting
     autocmd VimResized * :wincmd =
 augroup END
 
+augroup ctags
+    au!
+    autocmd FileType javascript,jsx,ruby,go,c nnoremap <leader>rt :!ctags -R .<cr>
+    autocmd BufWritePre *.js,*.jsx,*.rb,*.go,*.c :Dispatch! ctags %
+augroup end
+
+augroup js
+    autocmd!
+    autocmd FileType javascript set filetype=javascript.jsx
+    autocmd FileType javascript,jsx setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType css,scss let b:prettier_exec_cmd = "prettier-stylelint"
+    autocmd BufWritePre *.js,*.jsx PrettierAsync
+    autocmd FileType *.js,*.jsx setlocal 
+                \ makeprg=./node_modules/eslint/bin/eslint.js
+    autocmd FileType javascript,jsx nnoremap <leader>c :Make! %<cr>
+    " autocmd BufWritePost *.js,*.jsx Make! % 
+    autocmd FileType javascript,jsx nnoremap <leader>cc :lclose<cr>
+augroup end
+
 augroup ruby
     autocmd!
     autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
+    " autocmd FileType eruby set filetype=eruby.html
+    autocmd FileType ruby compiler ruby
     autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru set filetype=ruby
+    " autocmd FileType ruby let b:dispatch="rubocop -f q -x %"
+    autocmd BufWritePre *.rb silent :Dispatch! rubocop -x -f q %
+
+    " autocmd BufWritePost,BufWritePre *.rb :silent LspDocumentDiagnostics
+    autocmd FileType ruby nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
+    autocmd FileType ruby nnoremap <leader>cc :lclose<cr>
+
+    autocmd FileType ruby nnoremap <c-m> :Dispatch! ruby %<cr>
 augroup end
 
 augroup go
     autocmd!
-    autocmd FileType go nmap <leader>t :GoTest<CR>
-    autocmd FileType go nmap <leader>tf :GoTestFunc<CR>
     autocmd BufRead,BufNewFile,BufWritePost *.proto setfiletype proto
     autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
+    " gofmt was handled by gopls
+    " autocmd BufRead,BufWritePost *.go silent :!gofmt -w %
+    " autocmd BufRead,BufWritePost *.go silent :!goimports -w %
+    autocmd FileType go setlocal makeprg=revive
+    autocmd BufWritePost *.go silent make! % | silent redraw!
+    " autocmd FileType go let b:dispatch="goimports -w %"
+    autocmd BufWritePost *.go :Dispatch! goimports -w %
+    autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
+    autocmd FileType go nnoremap <leader>cc :lclose<cr>
+augroup END
+augroup c
+    autocmd!
+    autocmd FileType c nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
+    autocmd FileType c nnoremap <leader>cc :lclose<cr>
 augroup END
 
 augroup cursor_behaviour
@@ -197,10 +246,14 @@ augroup END
 "fzf
 nnoremap <C-p> :Files<CR>
 nnoremap <C-f> :BTags<CR>
-nnoremap <C-r> :Buffers<CR>
+nnoremap <c-e> :Buffers<CR>
 
 "goyo
 nnoremap gf :Goyo<CR>
+
+"easy-align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 "ultisnips
 let g:UltiSnipsSnippetsDir=$HOME."/.vim/UltiSnips"
@@ -217,8 +270,6 @@ augroup fugtive
     autocmd!
     autocmd BufReadPost fugitive://* set bufhidden=delete
     autocmd User fugitive nnoremap <buffer> .. :edit %:h<CR>
-    autocmd FileType netrw nunmap <C-R>
-    autocmd FileType netrw nnoremap <C-R> :Buffers<cr>
 augroup END
 
 "nerdtree
@@ -227,34 +278,81 @@ let NERDTreeHijackNetrw = 0
 let NERDTreeShowHidden = 1
 let g:NERDTreeMapJumpPrevSibling=""
 let g:NERDTreeMapJumpNextSibling=""
+let g:netrw_dirhistmax = 0
 " Open NERDTree automatically when vim starts with no
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-"vim-go
-" let g:go_metalinter_enabled = ['GoLint']
-" let g:go_metalinter_autosave = 1
-" let g:go_metalinter_autosave_enabled = ['GoLint']
-" let g:go_metalinter_deadline = "5s"
-" let g:go_list_type = "quickfix"
+
+
+" vim-lsp
+augroup LspGo
+  au!
+  autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'go-lang',
+      \ 'cmd': {server_info->['gopls']},
+      \ 'whitelist': ['go'],
+      \ })
+  if executable('solargraph')
+      " gem install solargraph
+      au User lsp_setup call lsp#register_server({
+          \ 'name': 'solargraph',
+          \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
+          \ 'initialization_options': {"diagnostics": "true"},
+          \ 'whitelist': ['ruby'],
+          \ })
+  endif
+
+  " Register ccls C++ lanuage server.
+  if executable('ccls')
+      au User lsp_setup call lsp#register_server({
+          \ 'name': 'ccls',
+          \ 'cmd': {server_info->['ccls']},
+          \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+          \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+          \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+          \ })
+  endif
+
+  autocmd FileType go,ruby,c setlocal omnifunc=lsp#complete
+  autocmd FileType go,ruby,c nmap <buffer> gd <plug>(lsp-definition)
+  autocmd FileType go,ruby,c nmap <buffer> ,n <plug>(lsp-next-error)
+  autocmd FileType go,ruby,c nmap <buffer> ,p <plug>(lsp-previous-error)
+augroup END
+
+
+highlight lspReference ctermfg=fg guifg=fg ctermbg=lightgreen guibg=lightgreen
+
+
+" emmet-vim
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,eruby,jsx,javascript EmmetInstall
+let g:user_emmet_leader_key=','
+
+" vim-commentary
+augroup Commentary
+    au!
+    autocmd FileType html setlocal commentstring=//\ %s
+augroup end
+
 
 "ale
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
-" Write this in your vimrc file
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-" You can disable this option too
-" if you don't want linters to run on opening a file
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
+" let g:ale_open_list = 1
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 0
+" let g:ale_lint_on_enter = 0
 
-let g:ale_linters = {
-\ '*':  ['remove_trailing_lines', 'trim_whitespace'],
-\ 'go': ['golint', 'govet'],
-\ 'proto': [],
-\ }
 
-set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
+" let g:ale_fix_on_save = 1
+" let g:ale_fixers = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'go': ['goimports', 'gofmt'],
+" \}
 
+
+" let g:ale_linters_explicit = 1
+" let g:ale_linters = {
+" \   'go': [],
+" \}
