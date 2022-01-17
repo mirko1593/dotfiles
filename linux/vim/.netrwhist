@@ -1,12 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =5
-let g:netrw_dirhist_5='/home/ubuntu/.cache'
-let g:netrw_dirhist_4='/home/ubuntu'
-let g:netrw_dirhist_3='/Users/mirko/gocode/en_sim/util/codes'
-let g:netrw_dirhist_2='/Users/mirko/golib/pkg/mod/git.code.oa.com/cloudsim_be'
-let g:netrw_dirhist_1='/Users/mirko/golib/pkg/mod/git.code.oa.com/cloudsim_be/proto@v0.0.0-20210819085723-a5a24b474d85'
-let g:netrw_dirhist_0='/Users/mirko/golib/pkg/mod/git.code.oa.com/cloudsim_be/proto@v0.0.0-20210819085723-a5a24b474d85/license'
-let g:netrw_dirhist_9='/usr/local/go/src/os'
-let g:netrw_dirhist_8='/Users/mirko/golib/pkg/mod/github.com/tidwall/evio@v1.0.8'
-let g:netrw_dirhist_7='/Users/mirko/gocode/en_sim/enkits/xpb/test_data'
-let g:netrw_dirhist_6='/Users/mirko/gocode/en_sim/enkits/xpb'
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/Users/mirkowang/gocode/src/github.com/mirko1593/examples/reuse'
+let g:netrw_dirhist_2='/Users/mirko'
+let g:netrw_dirhist_1='/Users/mirkowang/gocode/src/github.com/mirko1593/examples/reuse'
