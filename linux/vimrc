@@ -225,7 +225,7 @@ augroup c
     autocmd FileType c nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType c nnoremap <leader>cc :lclose<cr>
 
-    autocmd BufWritePre *.c,*.h silent :Dispatch! clang-format -i %
+    autocmd BufWritePre *.c,*.h silent :Dispatch! clang-format --style=google -i %
 augroup END
 
 augroup cursor_behaviour
