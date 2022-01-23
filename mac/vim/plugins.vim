@@ -29,6 +29,7 @@ Plug 'hashivim/vim-terraform'
 "--------------------- Language-Ruby ---------------------
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-rails'
 
 
 "--------------------- Javascript & React ---------------------

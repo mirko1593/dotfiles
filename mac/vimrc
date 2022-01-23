@@ -190,6 +190,7 @@ augroup end
 
 augroup ruby
     autocmd!
+    autocmd BufRead *.erb set filetype=eruby.html.ruby
     autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
     " autocmd FileType eruby set filetype=eruby.html
     autocmd FileType ruby compiler ruby
@@ -201,7 +202,7 @@ augroup ruby
     autocmd FileType ruby nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType ruby nnoremap <leader>cc :lclose<cr>
 
-    autocmd FileType ruby nnoremap <c-m> :Dispatch! ruby %<cr>
+    " autocmd FileType ruby nnoremap <c-m> :Dispatch! ruby %<cr>
 augroup end
 
 augroup go
@@ -266,8 +267,6 @@ augroup fugtive
     autocmd!
     autocmd BufReadPost fugitive://* set bufhidden=delete
     autocmd User fugitive nnoremap <buffer> .. :edit %:h<CR>
-    autocmd FileType netrw nunmap <C-R>
-    autocmd FileType netrw nnoremap <C-R> :Buffers<cr>
 augroup END
 
 "nerdtree
@@ -319,6 +318,8 @@ let g:user_emmet_leader_key=','
 augroup Commentary
     au!
     autocmd FileType html setlocal commentstring=//\ %s
+    autocmd FileType eruby let g:surround_45 = "<% \r %>"
+    autocmd FileType eruby let g:surround_61 = "<%= \r %>"
 augroup end
 
 
