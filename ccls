@@ -1,0 +1,4 @@
+gcc
+%c -std=c89
+--include=include
+-L lib

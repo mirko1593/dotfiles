@@ -1,0 +1,18 @@
+alias nah="git reset --hard && git clean -df"
+alias wip="git add . && git commit -m 'WIP.'"
+alias glo="git log --oneline"
+alias gs="git status"
+alias gcm="git commit -m "
+alias gca="git commit --amend"
+alias gcb="git checkout -b"
+alias gbd="git branch -d"
+alias gbD="git branch -D"
+alias gck="git checkout"
+alias gcd="git checkout develop"
+alias gpo="git push origin"
+alias gpl="git pull"
+
+# tmux
+alias tls="tmux list-sessions"
+alias tts="tmux attach-session -t"
+

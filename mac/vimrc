@@ -171,8 +171,8 @@ augroup END
 
 augroup ctags
     au!
-    autocmd FileType javascript,jsx,ruby,go nnoremap <leader>rt :!ctags -R .<cr>
-    autocmd BufWritePre *.js,*.jsx,*.rb,*.go :Dispatch! ctags %
+    autocmd FileType javascript,jsx,ruby,go,c nnoremap <leader>rt :!ctags -R .<cr>
+    autocmd BufWritePre *.js,*.jsx,*.rb,*.go,*.c :Dispatch! ctags %
 augroup end
 
 augroup js
@@ -220,7 +220,11 @@ augroup go
     autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType go nnoremap <leader>cc :lclose<cr>
 augroup END
-
+augroup c
+    autocmd!
+    autocmd FileType c nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
+    autocmd FileType c nnoremap <leader>cc :lclose<cr>
+augroup END
 
 augroup cursor_behaviour
     autocmd!
@@ -299,10 +303,22 @@ augroup LspGo
           \ 'whitelist': ['ruby'],
           \ })
   endif
-  autocmd FileType go,ruby setlocal omnifunc=lsp#complete
-  autocmd FileType go,ruby nmap <buffer> gd <plug>(lsp-definition)
-  autocmd FileType go,ruby nmap <buffer> ,n <plug>(lsp-next-error)
-  autocmd FileType go,ruby nmap <buffer> ,p <plug>(lsp-previous-error)
+
+  " Register ccls C++ lanuage server.
+  if executable('ccls')
+      au User lsp_setup call lsp#register_server({
+          \ 'name': 'ccls',
+          \ 'cmd': {server_info->['ccls']},
+          \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+          \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+          \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+          \ })
+  endif
+
+  autocmd FileType go,ruby,c setlocal omnifunc=lsp#complete
+  autocmd FileType go,ruby,c nmap <buffer> gd <plug>(lsp-definition)
+  autocmd FileType go,ruby,c nmap <buffer> ,n <plug>(lsp-next-error)
+  autocmd FileType go,ruby,c nmap <buffer> ,p <plug>(lsp-previous-error)
 augroup END
 
 
