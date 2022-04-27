@@ -74,8 +74,8 @@ map k gk
 set splitbelow              "default horizontal split direction up
 set splitright             "default vertical split to left
 
-" nnoremap <C-J> <C-w><C-J>
-" nnoremap <C-K> <C-W><C-K>
+nnoremap <C-J> <C-w><C-J>
+nnoremap <C-K> <C-W><C-K>
 " nnoremap <C-L> <C-W><C-L>
 " nnoremap <C-H> <C-W><C-H>
 "<C-W> s -- new window
@@ -266,9 +266,11 @@ inoremap <expr> <c-j> ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> <c-k> ((pumvisible())?("\<C-p>"):("k"))
 
 "vim-fugitive
+" press a key to toggle between the git show and git ls-tree views.
+" pressing C key to jump up to the commit object for the current tre
 augroup fugtive
     autocmd!
-    autocmd BufReadPost fugitive://* set bufhidden=delete
+    autocmd BufReadPost fugitive:///* set bufhidden=delete
     autocmd User fugitive nnoremap <buffer> .. :edit %:h<CR>
 augroup END
 
