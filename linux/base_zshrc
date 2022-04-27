@@ -9,15 +9,15 @@ stty -ixon
 export GO111MODULE=on
 
 export PATH="/usr/local/bin:$PATH"
-export PATH="$PATH:/usr/local/go/bin"
-export GOPATH="/home/ubuntu/golib"
+export PATH="/usr/local/go/bin:$PATH"
+export GOPATH="$PWD/golib"
 export PATH="$PATH:$GOPATH/bin"
 
 source ~/.alias
 
-export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
+# export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+# export PATH="/usr/local/opt/ruby/bin:$PATH"
+# export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
 
 
 # istio

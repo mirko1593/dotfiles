@@ -16,9 +16,12 @@ $ source ~/.zshrc
 ```
 $ brew install vim the_silver_searcher
 
+$ ln -s ~/code/dotfiles/mac/vim ~/.vim
+
+$ mkdir ~/.vim/swapfiles
+
 $ ln -s ~/code/dotfiles/mac/vimrc ~/.vimrc
 
-$ ln -s ~/code/dotfiles/mac/vim ~/.vim
 ```
 
 ### Tmux
@@ -28,7 +31,17 @@ $ brew install tmux
 $ ln -s ~/code/dotfiles/mac/tmux.conf ~/.tmux.conf
 ```
 
-### Go
+# Linux
+
+### dotfiles
+```
+$ git clone https://github.com/mirko1593/dotfiles.git ~/code/dotfiles
+```
+
+### vim
+
+$ sudo add-apt-repository ppa:jonathonf/vim
+
 ```
 $ go install github.com/mgechev/revive@latest
 
@@ -61,12 +74,6 @@ sudo apt update
 ```
 $ apt install -y silversearcher-ag
 
-$ ln -s ~/code/dotfiles/linux/vim ~/.vim
-
-$ mkdir ~/.vim/swapfiles
-
-$ ln -s ~/code/dotfiles/linux/vimrc ~/.vimrc
-
 $ ln -s ~/code/dotfiles/linux/tmux.conf ~/.tmux.conf
 ```
 
@@ -79,6 +86,5 @@ $ go install github.com/mgechev/revive@latest
 $ go install golang.org/x/tools/cmd/goimports@latest
 
 $ go install golang.org/x/tools/gopls@latest
-
 
 ```

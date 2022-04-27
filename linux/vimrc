@@ -219,10 +219,13 @@ augroup go
     autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType go nnoremap <leader>cc :lclose<cr>
 augroup END
+
 augroup c
     autocmd!
     autocmd FileType c nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType c nnoremap <leader>cc :lclose<cr>
+
+    autocmd BufWritePre *.c,*.h silent :Dispatch! clang-format --style=google -i %
 augroup END
 
 augroup cursor_behaviour
@@ -262,8 +265,11 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 "supertab
-inoremap <expr> <c-j> ((pumvisible())?("\<C-n>"):("j"))
-inoremap <expr> <c-k> ((pumvisible())?("\<C-p>"):("k"))
+" inoremap <expr> <c-j> ((pumvisible())?("\<C-n>"):("j"))
+" inoremap <expr> <c-k> ((pumvisible())?("\<C-p>"):("k"))
+
+inoremap <expr> <C-J> pumvisible() ? "\<C-N>" : "j"
+inoremap <expr> <C-K> pumvisible() ? "\<C-P>" : "k"
 
 "vim-fugitive
 augroup fugtive
