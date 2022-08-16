@@ -16,3 +16,11 @@ alias gpl="git pull"
 alias tls="tmux list-sessions"
 alias tts="tmux attach-session -t"
 
+# kubernetes
+alias k="kubectl"
+alias ka="kubectl get all"
+alias kaf="kubectl apply -f"
+alias kan="kubectl get all -n"
+alias kd="kubectl delete"
+alias kn="kubectl get ns"
+alias kg="kubectl get"
