@@ -4,6 +4,8 @@ filetype plugin indent on
 let mapleader=","
 syntax on
 
+let g:ruby_space_error = 1
+
 so ~/.vim/plugins.vim
 
 "mouse move laziness
@@ -90,7 +92,7 @@ nnoremap <C-o> <C-W><C-o>
 
 "autcomplete
 set complete=.,w,b,u
-set completeopt-=preview
+" set completeopt-=preview
 set cpoptions+=d
 
 
@@ -193,8 +195,8 @@ augroup ruby
     autocmd BufRead *.erb set filetype=eruby.html.ruby
     autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
     " autocmd FileType eruby set filetype=eruby.html
-    autocmd FileType ruby compiler ruby
-    autocmd BufNewFile,BufRead Rakefile,Capfile,Gemfile,config.ru set filetype=ruby
+    " autocmd FileType ruby compiler ruby
+    autocmd BufNewFile,BufRead Rakefile,Capfile,config.ru set filetype=ruby
     " autocmd FileType ruby let b:dispatch="rubocop -f q -x %"
     autocmd BufWritePre *.rb silent :Dispatch! rubocop -x -f q %
 
@@ -203,6 +205,10 @@ augroup ruby
     autocmd FileType ruby nnoremap <leader>cc :lclose<cr>
 
     " autocmd FileType ruby nnoremap <c-m> :Dispatch! ruby %<cr>
+    autocmd FileType ruby let rubycomplete_buffer_loading = 1
+    autocmd FileType ruby let rubycomplete_classes_in_global = 1
+    autocmd FileType ruby let rubycomplete_rails = 1
+    autocmd FileType ruby let rubycomplete_load_gemfile = 1
 augroup end
 
 augroup go
@@ -220,6 +226,7 @@ augroup go
     autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType go nnoremap <leader>cc :lclose<cr>
 augroup END
+
 augroup c
     autocmd!
     autocmd FileType c nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
@@ -297,16 +304,21 @@ augroup LspGo
           \ 'cmd': {server_info->['gopls']},
           \ 'whitelist': ['go'],
           \ })
-    endif
-  if executable('solargraph')
-      " gem install solargraph
-      au User lsp_setup call lsp#register_server({
-          \ 'name': 'solargraph',
-          \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
-          \ 'initialization_options': {"diagnostics": "true"},
-          \ 'whitelist': ['ruby'],
-          \ })
   endif
+
+  au FileType ruby let lsp_diagnostics_enabled = 0 
+  if executable("typeprof")
+      call lsp#stop_server('typeprof')
+  endif
+  " if executable('solargraph')
+  "     " gem install solargraph
+  "     au User lsp_setup call lsp#register_server({
+  "         \ 'name': 'solargraph',
+  "         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
+  "         \ 'initialization_options': {"diagnostics": "true"},
+  "         \ 'whitelist': ['ruby'],
+  "         \ })
+  " endif
 
   " Register ccls C++ lanuage server.
   if executable('ccls')
@@ -319,7 +331,7 @@ augroup LspGo
           \ })
   endif
 
-  autocmd FileType go,ruby,c setlocal omnifunc=lsp#complete
+  autocmd FileType go,c setlocal omnifunc=lsp#complete
   autocmd FileType go,ruby,c nmap <buffer> gd <plug>(lsp-definition)
   autocmd FileType go,ruby,c nmap <buffer> ,n <plug>(lsp-next-error)
   autocmd FileType go,ruby,c nmap <buffer> ,p <plug>(lsp-previous-error)
