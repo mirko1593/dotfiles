@@ -9,7 +9,7 @@ fi
 base_path="$PWD/$platform"
 vimrc_path="~/.vimrc"
 if [ -f "$vimrc_path" ]; then
-    echo "virmc already exist"
+    echo "virmc already exist."
 else
     echo "will run ln -s "$base_path/vimrc" ~/.vimrc"
     # ln -s $vimrc_path ~/.vimrc
