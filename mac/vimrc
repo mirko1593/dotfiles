@@ -198,8 +198,9 @@ augroup ruby
     " autocmd FileType eruby set filetype=eruby.html
     "
     autocmd FileType ruby compiler ruby
-    autocmd FileType ruby nnoremap <c-m> :Dispatch ruby %<cr>
+    " autocmd FileType ruby nnoremap <c-m> :Dispatch !ruby %<cr>
     autocmd BufWritePre *.rb silent :Dispatch! rubocop -x -f q %
+    autocmd FileType ruby nnoremap <leader><leader> :!ruby %<cr>
 
     " autocmd BufWritePost,BufWritePre *.rb :silent LspDocumentDiagnostics
     " autocmd FileType ruby nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
