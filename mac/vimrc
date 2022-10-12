@@ -83,7 +83,7 @@ nnoremap <C-K> <C-W><C-K>
 "<C-W> s -- new window
 
 
-nnoremap <C-o> <C-W><C-o>
+" nnoremap <C-o> <C-W><C-o>
 "<C-W><Bar>     fullscreen current split
 "<C-W>=         equal screen split
 
@@ -197,7 +197,6 @@ augroup ruby
     autocmd BufNewFile,BufRead Rakefile,Capfile,config.ru set filetype=ruby
     " autocmd FileType eruby set filetype=eruby.html
     "
-    autocmd FileType ruby compiler ruby
     " autocmd FileType ruby nnoremap <c-m> :Dispatch !ruby %<cr>
     autocmd BufWritePre *.rb silent :Dispatch! rubocop -x -f q %
     autocmd FileType ruby nnoremap <leader><leader> :!ruby %<cr>
@@ -259,7 +258,7 @@ nnoremap <C-f> :BTags<CR>
 nnoremap <c-e> :Buffers<CR>
 
 "goyo
-nnoremap gf :Goyo<CR>
+" nnoremap gf :Goyo<CR>
 
 "easy-align
 xmap ga <Plug>(EasyAlign)
@@ -352,6 +351,7 @@ let g:user_emmet_leader_key=','
 augroup Commentary
     au!
     autocmd FileType html setlocal commentstring=//\ %s
+    " autocmd FileType html setlocal commentstring=//\ %s
     autocmd FileType eruby let g:surround_45 = "<% \r %>"
     autocmd FileType eruby let g:surround_61 = "<%= \r %>"
 augroup end

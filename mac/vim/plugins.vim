@@ -31,6 +31,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-rails'
+Plug 'tpope/vim-endwise'
 
 
 "--------------------- Javascript & React ---------------------
