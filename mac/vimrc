@@ -4,8 +4,6 @@ filetype plugin indent on
 let mapleader=","
 syntax on
 
-" let g:ruby_space_error = 1
-
 so ~/.vim/plugins.vim
 
 "mouse move laziness
@@ -76,8 +74,8 @@ map k gk
 set splitbelow              "default horizontal split direction up
 set splitright             "default vertical split to left
 
-nnoremap <C-J> <C-w><C-J>
-nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-J> <C-w><C-J>
+" nnoremap <C-K> <C-W><C-K>
 " nnoremap <C-L> <C-W><C-L>
 " nnoremap <C-H> <C-W><C-H>
 "<C-W> s -- new window
@@ -193,18 +191,12 @@ augroup end
 augroup ruby
     autocmd!
     autocmd BufRead *.erb set filetype=eruby.html.ruby
-    autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
     autocmd BufNewFile,BufRead Rakefile,Capfile,config.ru set filetype=ruby
-    " autocmd FileType eruby set filetype=eruby.html
+    autocmd FileType ruby,eruby,yaml setlocal ts=2 sts=2 sw=2 expandtab
     "
     " autocmd FileType ruby nnoremap <c-m> :Dispatch !ruby %<cr>
     autocmd BufWritePre *.rb silent :Dispatch! rubocop -x -f q %
     autocmd FileType ruby nnoremap <leader><leader> :!ruby %<cr>
-
-    " autocmd BufWritePost,BufWritePre *.rb :silent LspDocumentDiagnostics
-    " autocmd FileType ruby nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
-    " autocmd FileType ruby nnoremap <leader>cc :lclose<cr>
-
 
     autocmd FileType ruby let rubycomplete_buffer_loading = 1
     autocmd FileType ruby let rubycomplete_classes_in_global = 1
@@ -333,9 +325,9 @@ augroup LspGo
   endif
 
   autocmd FileType go,c setlocal omnifunc=lsp#complete
-  autocmd FileType go,ruby,c nmap <buffer> gd <plug>(lsp-definition)
-  autocmd FileType go,ruby,c nmap <buffer> ,n <plug>(lsp-next-error)
-  autocmd FileType go,ruby,c nmap <buffer> ,p <plug>(lsp-previous-error)
+  autocmd FileType go,c nmap <buffer> gd <plug>(lsp-definition)
+  autocmd FileType go,c nmap <buffer> ,n <plug>(lsp-next-error)
+  autocmd FileType go,c nmap <buffer> ,p <plug>(lsp-previous-error)
 augroup END
 
 
