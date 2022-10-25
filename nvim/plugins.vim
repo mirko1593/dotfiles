@@ -1,4 +1,4 @@
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 "--------------------- View & Edit ---------------------
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }

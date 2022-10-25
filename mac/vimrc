@@ -90,7 +90,7 @@ set splitright             "default vertical split to left
 
 "autcomplete
 set complete=.,w,b,u
-" set completeopt-=preview
+set completeopt-=preview
 set cpoptions+=d
 
 
@@ -210,19 +210,16 @@ augroup go
     autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
     " gofmt was handled by gopls
     " autocmd BufRead,BufWritePost *.go silent :!gofmt -w %
-    " autocmd BufRead,BufWritePost *.go silent :!goimports -w %
     autocmd FileType go setlocal makeprg=revive
     autocmd BufWritePost *.go silent make! % | silent redraw!
-    " autocmd FileType go let b:dispatch="goimports -w %"
-    autocmd BufWritePost *.go :Dispatch! goimports -w %
     autocmd QuickFixCmdPost [^l]* cwindow
-    autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
+    " autocmd FileType go nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType go nnoremap <leader>cc :lclose<cr>
 augroup END
 
 augroup c
     autocmd!
-    autocmd FileType c nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
+    " autocmd FileType c nnoremap <leader>c :silent LspDocumentDiagnostics<cr>
     autocmd FileType c nnoremap <leader>cc :lclose<cr>
 augroup END
 
@@ -289,20 +286,20 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
 " vim-lsp
-augroup LspGo
-  au!
-  if executable('gopls')
-      autocmd User lsp_setup call lsp#register_server({
-          \ 'name': 'gopls',
-          \ 'cmd': {server_info->['gopls']},
-          \ 'whitelist': ['go'],
-          \ })
-  endif
+" augroup LspGo
+"   au!
+"   if executable('gopls')
+"       autocmd User lsp_setup call lsp#register_server({
+"           \ 'name': 'gopls',
+"           \ 'cmd': {server_info->['gopls']},
+"           \ 'whitelist': ['go'],
+"           \ })
+"   endif
 
-  au FileType ruby let lsp_diagnostics_enabled = 0 
-  if executable("typeprof")
-      call lsp#stop_server('typeprof')
-  endif
+"   au FileType ruby let lsp_diagnostics_enabled = 0 
+"   if executable("typeprof")
+"       call lsp#stop_server('typeprof')
+"   endif
   " if executable('solargraph')
   "     " gem install solargraph
   "     au User lsp_setup call lsp#register_server({
@@ -314,24 +311,24 @@ augroup LspGo
   " endif
 
   " Register ccls C++ lanuage server.
-  if executable('ccls')
-      au User lsp_setup call lsp#register_server({
-          \ 'name': 'ccls',
-          \ 'cmd': {server_info->['ccls']},
-          \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-          \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
-          \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-          \ })
-  endif
+  " if executable('ccls')
+  "     au User lsp_setup call lsp#register_server({
+  "         \ 'name': 'ccls',
+  "         \ 'cmd': {server_info->['ccls']},
+  "         \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+  "         \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+  "         \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+  "         \ })
+  " endif
 
-  autocmd FileType go,c setlocal omnifunc=lsp#complete
-  autocmd FileType go,c nmap <buffer> gd <plug>(lsp-definition)
-  autocmd FileType go,c nmap <buffer> ,n <plug>(lsp-next-error)
-  autocmd FileType go,c nmap <buffer> ,p <plug>(lsp-previous-error)
-augroup END
+  " autocmd FileType go,c setlocal omnifunc=lsp#complete
+  " autocmd FileType go,c nmap <buffer> gd <plug>(lsp-definition)
+  " autocmd FileType go,c nmap <buffer> ,n <plug>(lsp-next-error)
+  " autocmd FileType go,c nmap <buffer> ,p <plug>(lsp-previous-error)
+" augroup END
 
 
-highlight lspReference ctermfg=fg guifg=fg ctermbg=lightgreen guibg=lightgreen
+" highlight lspReference ctermfg=fg guifg=fg ctermbg=lightgreen guibg=lightgreen
 
 
 " emmet-vim
@@ -347,25 +344,3 @@ augroup Commentary
     autocmd FileType eruby let g:surround_45 = "<% \r %>"
     autocmd FileType eruby let g:surround_61 = "<%= \r %>"
 augroup end
-
-
-"ale
-" let g:ale_set_loclist = 0
-" let g:ale_set_quickfix = 1
-" let g:ale_open_list = 1
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_lint_on_insert_leave = 0
-" let g:ale_lint_on_enter = 0
-
-
-" let g:ale_fix_on_save = 1
-" let g:ale_fixers = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'go': ['goimports', 'gofmt'],
-" \}
-
-
-" let g:ale_linters_explicit = 1
-" let g:ale_linters = {
-" \   'go': [],
-" \}
