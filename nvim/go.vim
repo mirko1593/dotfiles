@@ -11,6 +11,7 @@ lua <<EOF
         end
       end
     end
+    vim.lsp.buf.formatting()
   end
 EOF
 
@@ -27,8 +28,9 @@ EOF
 augroup go
     au!
     autocmd FileType go nnoremap <leader>rt :!ctags -R .<cr>
-    autocmd BufWritePre *.go :Dispatch! ctags %
+    autocmd FileType go setlocal omnifunc=v:lua.vim.lsp.omnifunc
     autocmd BufWritePre *.go lua go_org_imports()
+    autocmd BufWritePre *.go :Dispatch! ctags %
     autocmd BufRead,BufNewFile,BufWritePost *.proto setfiletype proto
     autocmd FileType proto setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType go setlocal makeprg=revive

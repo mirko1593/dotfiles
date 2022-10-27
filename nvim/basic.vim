@@ -10,7 +10,7 @@ set timeoutlen=300
 set ttimeoutlen=0
 set noeb vb t_vb=
 " set backspace = indent,eol,start               " backspace on indent,eof,start of line
-" set scrolloff = 8
+set scrolloff=8
 " set history   = 50
 " set t_CO      = 256
 set number

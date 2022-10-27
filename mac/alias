@@ -29,3 +29,6 @@ alias kap="kubectl get pods"
 alias kas="kubectl get services"
 alias kad="kubectl get deployments"
 alias wap="watch kubectl get pods"
+
+# vim
+alias vim="nvim"
