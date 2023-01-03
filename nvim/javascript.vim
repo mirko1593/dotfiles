@@ -5,7 +5,7 @@ augroup JAVASCRIPT
     autocmd FileType html,css,jsx,javascript EmmetInstall
     autocmd FileType javascript,jsx nnoremap <leader>rt :!ctags -R .<cr>
     autocmd BufWritePre *.js,*.jsx :Dispatch! ctags %
-    autocmd FileType javascript,jsx setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType html,javascript,jsx,css setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType css,scss let b:prettier_exec_cmd = "prettier-stylelint"
     autocmd BufWritePre *.js,*.jsx PrettierAsync
     autocmd FileType *.js,*.jsx setlocal 
